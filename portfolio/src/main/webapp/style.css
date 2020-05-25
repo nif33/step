@@ -6,6 +6,8 @@
 
 #header {
     align-content: center;
+    background-image: url("/images/header-image.jpg");
+    background-color: deepskyblue
 }
 
 #greeting-container {
@@ -13,14 +15,14 @@
 }
 
 h1 {
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Dosis', sans-serif;
     font-size: 60px;
-    color: mistyrose;
+    color: white;
     text-align: center;
 }
 
 h2 {
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Dosis', sans-serif;
     font-size: 28px;
     color: lightslategrey;
 }
