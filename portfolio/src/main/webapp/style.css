@@ -4,6 +4,27 @@
   width: 650px;
 }
 
+#header {
+    align-content: center;
+}
+
 #greeting-container {
   margin-top: 20px;
+}
+
+h1 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 60px;
+    color: mistyrose;
+    text-align: center;
+}
+
+h2 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 28px;
+    color: lightslategrey;
+}
+
+p {
+    font-size: 14px;
 }
