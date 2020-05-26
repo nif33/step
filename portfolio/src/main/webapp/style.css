@@ -20,6 +20,10 @@
   margin-top: 20px;
 }
 
+#slideshow {
+    text-align: center;
+}
+
 body{
     margin: auto;
     padding: auto;
@@ -59,4 +63,10 @@ a, button {
 }
 a:hover, button:hover {
     background-color: lightsteelblue;
+}
+
+img {
+    object-fit: contain;
+    width: 90%;
+    height: 25%;
 }
