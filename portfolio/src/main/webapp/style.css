@@ -1,19 +1,20 @@
 #content {
-    margin-left: auto;
-    margin-left: auto;
-    width: 100%;
-    font-family: 'PT Sans Narrow', sans-serif;
+  margin-left: auto;
+  margin-left: auto;
+  width: 100%;
+  font-family: 'PT Sans Narrow', sans-serif;
 }
 
 #header {
-    padding: 10%;
-    text-align: center;
-    background-image: url("/images/header-image.jpg");
-    background-color: deepskyblue;
-    background-repeat: no-repeat;
-    background-size: cover;
-    opacity: 0.8;
-    position: sticky;
+  padding: 2% 0%;
+  text-align: center;
+  background-image: url("/images/header-image.jpg");
+  background-color: deepskyblue;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
 }
 
 #greeting-container {
@@ -21,52 +22,54 @@
 }
 
 #slideshow {
-    text-align: center;
+  text-align: center;
 }
 
 body{
-    margin: auto;
-    padding: auto;
-    width: 100%;
-    height: 100%;
+  margin: auto;
+  padding: auto;
+  width: 100%;
+  height: 100%;
 }
 
 h1 {
-    font-size: 72px;
-    color:white;
-    background-color: rgba(255, 228, 225, 0.5);
-    width: 100%;
+  font-size: 72px;
+  color:white;
+  background-color: rgba(255, 228, 225, 0.5);
+  width: 100%;
 }
 
 h2 {
-    font-size: 28px;
-    color: lightslategrey;
-    background-color: mistyrose;
-    padding-left: 2%;
+  font-size: 28px;
+  color: lightslategrey;
+  background-color: mistyrose;
+  padding-left: 2%;
 }
 
 p {
-    font-size: 18px;
+  font-size: 18px;
+  padding: 2%;
 }
 
 a, button {
-    background-color: lightslategray;
-    border: none;
-    color: white;
-    text-align: center;
-    display: inline-block;
-    font-size: 20px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 5px;
-    text-decoration: none;
+  background-color: lightslategray;
+  border: none;
+  color: white;
+  text-align: center;
+  display: inline-block;
+  font-size: 20px;
+  margin: 0% 2%;
+  padding: 1% 2%;
+  cursor: pointer;
+  border-radius: 5px;
+  text-decoration: none;
 }
 a:hover, button:hover {
-    background-color: lightsteelblue;
+  background-color: lightsteelblue;
 }
 
 img {
-    object-fit: contain;
-    width: 90%;
-    height: 25%;
+  object-fit: contain;
+  width: 90%;
+  height: 25%;
 }
