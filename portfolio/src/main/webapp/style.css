@@ -37,6 +37,7 @@ h1 {
   color:white;
   background-color: rgba(255, 228, 225, 0.5);
   width: 100%;
+  padding: 0px;
 }
 
 h2 {
@@ -48,7 +49,7 @@ h2 {
 
 p {
   font-size: 18px;
-  padding: 2%;
+  padding: 0% 2%;
 }
 
 a, button {
@@ -70,6 +71,5 @@ a:hover, button:hover {
 
 img {
   object-fit: contain;
-  width: 90%;
-  height: 25%;
+  height: 500px;
 }
