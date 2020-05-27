@@ -19,7 +19,7 @@ function addRandomFact() {
   const facts =
       ['I have a pet dog', 'I like to code'];
 
-  // Pick a random greeting.
+  // Pick a random fact.
   const fact = facts[Math.floor(Math.random() * facts.length)];
 
   // Add it to the page.
