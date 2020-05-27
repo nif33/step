@@ -8,15 +8,21 @@
   </head>
   <body>
     <div id="content">
+      <div id="menu">
+        <h2>
+        <a href="index.html">Home</a>&nbsp&nbsp
+        <a href="https://ca.linkedin.com/in/jennifer-dai">LinkedIn</a>&nbsp&nbsp
+        <a href="https://github.com/nif33">Github</a>&nbsp&nbsp
+        </h2>
+      </div>
+
       <div id="header">
         <h1>Jennifer Dai's Portfolio</h1>
-        <a href="https://ca.linkedin.com/in/jennifer-dai">LinkedIn</a>
-        <a href="https://github.com/nif33">Github</a>
       </div>
 
       <p>Click here to get a random fact about me:</p>
-      <button onclick="addRandomFact()">Tell me more!</button>
-      <div id="fact-container"></div>
+        <button onclick="addRandomFact()">Tell me more!</button>
+        <div id="fact-container"></div>
 
       <h2>Background</h2>
       <p>I'm a 2nd year Computing Science student at Simon Fraser University. Three fun facts about me: 
@@ -25,7 +31,7 @@
       </p>
 
       <h2>Photos of my Dog</h2>
-      <p>This is my dog: William
+      <p>This is my dog: William</p>
       <div class="slideshow">
         <img class="dog-slides" src="/images/dog/dog0.jpg">
         <img class="dog-slides" src="/images/dog/dog1.jpg">
@@ -34,7 +40,7 @@
         <button onclick="nextSlide(0, -1)">Previous</button>
         <button onclick="nextSlide(0, 1)">Next</button>
       </div>
-</p>
+
       <h2>My Favourite Place</h2>
       <p>I haven't travelled much, but my favourite place I've been to is Montreal</p>
       <div class="slideshow">
@@ -45,8 +51,8 @@
         <button onclick="nextSlide(1, -1)">Previous</button>
         <button onclick="nextSlide(1, 1)">Next</button>
       </div>
-
     </div>
   <script src="script.js"></script>
   </body>
 </html>
+git add src/main/webapp/index.html && git add src/main/webapp/style.css && git add src/main/webapp/script.js
