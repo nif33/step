@@ -17,7 +17,7 @@
  */
 function addRandomFact() {
   const facts =
-      ['I have a pet dog', 'I like to code'];
+      ['I have a pet dog!', 'I like to code!', 'Marquees are my favourite HTML element!'];
 
   // Pick a random fact.
   const fact = facts[Math.floor(Math.random() * facts.length)];
@@ -30,7 +30,7 @@ function addRandomFact() {
 /**
  * Controls slideshow image display on the page
  */
-var slideIndices = [0, 0]; // array of slide indices for each slide deck
+var slideIndices = [0, 0, 0]; // array of slide indices for each slide deck
 for(var i = 0; i < slideIndices.length; i++) {
     showSlides(i, slideIndices[i]);
 }
@@ -45,6 +45,8 @@ function deckNumToName(deckNum) {
     return "dog-slides"
   else if(deckNum == 1)
     return "place-slides"
+  else
+    return "food-slides"
 }
 
 function showSlides(deckNum, slideIndex) {

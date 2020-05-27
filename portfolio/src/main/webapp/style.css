@@ -58,7 +58,7 @@ h2 {
   padding-left: 5%;
 }
 
-p {
+p, marquee {
   font-size: 1.2em;
   padding: 0% 5%;
 }
