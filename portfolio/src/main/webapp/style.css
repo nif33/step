@@ -21,7 +21,7 @@
   margin-top: 20px;
 }
 
-#slideshow {
+.slideshow {
   text-align: center;
 }
 
@@ -59,7 +59,7 @@ a, button {
   text-align: center;
   display: inline-block;
   font-size: 20px;
-  margin: 0% 2%;
+  margin: 2%;
   padding: 1% 2%;
   cursor: pointer;
   border-radius: 5px;
@@ -72,4 +72,6 @@ a:hover, button:hover {
 img {
   object-fit: contain;
   height: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }

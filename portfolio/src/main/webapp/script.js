@@ -26,3 +26,34 @@ function addRandomFact() {
   const factContainer = document.getElementById('fact-container');
   factContainer.innerText = fact;
 }
+
+/**
+ * Controls slideshow image display on the page
+ */
+var slideIndices = [0, 0]; // array of slide indices for each slide deck
+for(var i = 0; i < slideIndices.length; i++) {
+    showSlides(i, slideIndices[i]);
+}
+
+function nextSlide(deckNum, direction) {
+  showSlides(deckNum, slideIndices[deckNum] += direction);
+}
+
+// Returns corresponding class name for given deckNum
+function deckNumToName(deckNum) {
+  if(deckNum === 0)
+    return "dog-slides"
+  else if(deckNum == 1)
+    return "place-slides"
+}
+
+function showSlides(deckNum, slideIndex) {
+  var slides = document.getElementsByClassName(deckNumToName(deckNum));
+
+  slideIndex = Math.abs(slideIndex % slides.length) // wrap around index
+
+  for (var i = 0; i < slides.length; i++) { // display none except current index
+      slides[i].style.display = "none";  
+  }
+  slides[slideIndex].style.display = "block";
+}
