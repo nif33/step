@@ -30,8 +30,8 @@ function addRandomFact() {
 /**
  * Controls slideshow image display on the page
  */
-var slideIndices = [0, 0, 0]; // array of slide indices for each slide deck
-for(var i = 0; i < slideIndices.length; i++) {
+let slideIndices = [0, 0, 0]; // array of slide indices for each slide deck
+for(let i = 0; i < slideIndices.length; i++) {
     showSlides(i, slideIndices[i]);
 }
 
@@ -50,11 +50,11 @@ function deckNumToName(deckNum) {
 }
 
 function showSlides(deckNum, slideIndex) {
-  var slides = document.getElementsByClassName(deckNumToName(deckNum));
+  const slides = document.getElementsByClassName(deckNumToName(deckNum));
 
   slideIndex = Math.abs(slideIndex % slides.length) // wrap around index
 
-  for (var i = 0; i < slides.length; i++) { // display none except current index
+  for(let i = 0; i < slides.length; i++) { // display none except current index
       slides[i].style.display = "none";  
   }
   slides[slideIndex].style.display = "block";
