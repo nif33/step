@@ -30,32 +30,57 @@ function addRandomFact() {
 /**
  * Controls slideshow image display on the page
  */
+const decks = { // Enumerate slide decks
+  DOG_DECK: 0,
+  PLACE_DECK: 1,
+  FOOD_DECK: 2,
+};
+
+const SLIDES = [["/images/dog/dog0.jpg", "/images/dog/dog1.jpg", "/images/dog/dog2.jpg"],
+  ["/images/place/place0.jpg", "/images/place/place1.jpg", "/images/place/place2.jpg"],
+  ["/images/food/food0.jpg", "/images/food/food1.jpg", "/images/food/food2.jpg"]]
+
 let slideIndices = [0, 0, 0]; // array of slide indices for each slide deck
-for(let i = 0; i < slideIndices.length; i++) {
-    showSlides(i, slideIndices[i]);
-}
 
-function nextSlide(deckNum, direction) {
-  showSlides(deckNum, slideIndices[deckNum] += direction);
-}
-
-// Returns corresponding class name for given deckNum
-function deckNumToName(deckNum) {
-  if(deckNum === 0)
-    return "dog-slides"
-  else if(deckNum == 1)
-    return "place-slides"
-  else
-    return "food-slides"
-}
-
-function showSlides(deckNum, slideIndex) {
-  const slides = document.getElementsByClassName(deckNumToName(deckNum));
-
-  slideIndex = Math.abs(slideIndex % slides.length) // wrap around index
-
-  for(let i = 0; i < slides.length; i++) { // display none except current index
-      slides[i].style.display = "none";  
+function changeSlide(deckNum, direction) {
+  const deckSize = SLIDES[deckNum].length;
+  let slideIndex = slideIndices[deckNum];
+  slideIndex += direction;
+  if(slideIndex === deckSize) { // wrap around
+      slideIndex = 0;
   }
-  slides[slideIndex].style.display = "block";
+  else if(slideIndex === -1) {
+      slideIndex = deckSize - 1;
+  }
+  slideIndices[deckNum] = slideIndex;
+}
+
+document.getElementById("prev-dog-slide-button").onclick = function() {
+  changeSlide(decks.DOG_DECK, -1);
+  document.getElementById("dog-slide").src = SLIDES[decks.DOG_DECK][slideIndices[decks.DOG_DECK]];
+}
+
+document.getElementById('next-dog-slide-button').onclick = function() {
+  changeSlide(decks.DOG_DECK, 1);
+  document.getElementById("dog-slide").src = SLIDES[decks.DOG_DECK][slideIndices[decks.DOG_DECK]];
+}
+
+document.getElementById('prev-place-slide-button').onclick = function() {
+  changeSlide(decks.PLACE_DECK, -1);
+  document.getElementById("place-slide").src = SLIDES[decks.PLACE_DECK][slideIndices[decks.PLACE_DECK]];
+}
+
+document.getElementById('next-place-slide-button').onclick = function() {
+  changeSlide(decks.PLACE_DECK, 1);
+  document.getElementById("place-slide").src = SLIDES[decks.PLACE_DECK][slideIndices[decks.PLACE_DECK]];
+}
+
+document.getElementById('prev-food-slide-button').onclick = function() {
+  changeSlide(decks.FOOD_DECK, 1);
+  document.getElementById("food-slide").src = SLIDES[decks.FOOD_DECK][slideIndices[decks.FOOD_DECK]];
+}
+
+document.getElementById('next-food-slide-button').onclick = function() {
+  changeSlide(decks.FOOD_DECK, 1);
+  document.getElementById("food-slide").src = SLIDES[decks.FOOD_DECK][slideIndices[decks.FOOD_DECK]];
 }
