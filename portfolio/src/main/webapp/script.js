@@ -30,15 +30,17 @@ function addRandomFact() {
 /**
  * Controls slideshow image display on the page
  */
-const decks = { // Enumerate slide decks
+const deckNums = { // Enumerate slide decks
   DOG_DECK: 0,
   PLACE_DECK: 1,
   FOOD_DECK: 2,
 };
 
-const SLIDES = [["/images/dog/dog0.jpg", "/images/dog/dog1.jpg", "/images/dog/dog2.jpg"],
-  ["/images/place/place0.jpg", "/images/place/place1.jpg", "/images/place/place2.jpg"],
-  ["/images/food/food0.jpg", "/images/food/food1.jpg", "/images/food/food2.jpg"]]
+const SLIDES = {
+  DOG_DECK: ["/images/dog/dog0.jpg", "/images/dog/dog1.jpg", "/images/dog/dog2.jpg"],
+  PLACE_DECK: ["/images/place/place0.jpg", "/images/place/place1.jpg", "/images/place/place2.jpg"],
+  FOOD_DECK: ["/images/food/food0.jpg", "/images/food/food1.jpg", "/images/food/food2.jpg"],
+};
 
 const PREV_SLIDE_DIR = -1;
 const NEXT_SLIDE_DIR = 1;
@@ -54,15 +56,14 @@ function preloadImages()
     }
 }
 
-function changeSlide(deckNum, direction) {
-  const deckSize = SLIDES[deckNum].length;
+function changeSlide(deck, deckNum, direction) {
   let slideIndex = slideIndices[deckNum];
   slideIndex += direction;
-  if(slideIndex === deckSize) { // wrap around
+  if(slideIndex === deck.length) { // wrap around
       slideIndex = 0;
   }
   else if(slideIndex === -1) {
-      slideIndex = deckSize - 1;
+      slideIndex = deck.length - 1;
   }
   slideIndices[deckNum] = slideIndex;
 }
@@ -70,31 +71,31 @@ function changeSlide(deckNum, direction) {
 preloadImages();
 
 document.getElementById("prev-dog-slide-button").onclick = function() {
-  changeSlide(decks.DOG_DECK, PREV_SLIDE_DIR);
-  document.getElementById("dog-slide").src = SLIDES[decks.DOG_DECK][slideIndices[decks.DOG_DECK]];
+  changeSlide(SLIDES.DOG_DECK, deckNums.DOG_DECK, PREV_SLIDE_DIR);
+  document.getElementById("dog-slide").src = SLIDES.DOG_DECK[slideIndices[deckNums.DOG_DECK]];
 }
 
 document.getElementById('next-dog-slide-button').onclick = function() {
-  changeSlide(decks.DOG_DECK, NEXT_SLIDE_DIR);
-  document.getElementById("dog-slide").src = SLIDES[decks.DOG_DECK][slideIndices[decks.DOG_DECK]];
+  changeSlide(SLIDES.DOG_DECK, deckNums.DOG_DECK, NEXT_SLIDE_DIR);
+  document.getElementById("dog-slide").src = SLIDES.DOG_DECK[slideIndices[deckNums.DOG_DECK]];
 }
 
 document.getElementById('prev-place-slide-button').onclick = function() {
-  changeSlide(decks.PLACE_DECK, PREV_SLIDE_DIR);
-  document.getElementById("place-slide").src = SLIDES[decks.PLACE_DECK][slideIndices[decks.PLACE_DECK]];
+  changeSlide(SLIDES.PLACE_DECK, deckNums.PLACE_DECK, PREV_SLIDE_DIR);
+  document.getElementById("place-slide").src = SLIDES.PLACE_DECK[slideIndices[deckNums.PLACE_DECK]];
 }
 
 document.getElementById('next-place-slide-button').onclick = function() {
-  changeSlide(decks.PLACE_DECK, NEXT_SLIDE_DIR);
-  document.getElementById("place-slide").src = SLIDES[decks.PLACE_DECK][slideIndices[decks.PLACE_DECK]];
+  changeSlide(SLIDES.PLACE_DECK, deckNums.PLACE_DECK, NEXT_SLIDE_DIR);
+  document.getElementById("place-slide").src = SLIDES.PLACE_DECK[slideIndices[deckNums.PLACE_DECK]];
 }
 
 document.getElementById('prev-food-slide-button').onclick = function() {
-  changeSlide(decks.FOOD_DECK, PREV_SLIDE_DIR);
-  document.getElementById("food-slide").src = SLIDES[decks.FOOD_DECK][slideIndices[decks.FOOD_DECK]];
+  changeSlide(SLIDES.FOOD_DECK, deckNums.FOOD_DECK, PREV_SLIDE_DIR);
+  document.getElementById("food-slide").src = SLIDES.FOOD_DECK[slideIndices[deckNums.FOOD_DECK]];
 }
 
 document.getElementById('next-food-slide-button').onclick = function() {
-  changeSlide(decks.FOOD_DECK, NEXT_SLIDE_DIR);
-  document.getElementById("food-slide").src = SLIDES[decks.FOOD_DECK][slideIndices[decks.FOOD_DECK]];
+  changeSlide(SLIDES.FOOD_DECK, deckNums.FOOD_DECK, NEXT_SLIDE_DIR);
+  document.getElementById("food-slide").src = SLIDES.FOOD_DECK[slideIndices[deckNums.FOOD_DECK]];
 }
