@@ -40,12 +40,13 @@ const PREV_SLIDE_DIR = -1;
 const NEXT_SLIDE_DIR = 1;
 
 class Slideshow {
-  constructor(idNum, slides) {
+  constructor(idNum, slides, dom) {
     this.index = 0;
     this.idNum = idNum;
     this.slides = slides;
+    this.dom = dom;
   }
-  changeSlide(direction) { // returns new slide image string
+  changeSlide(direction) {
       const deckSize = this.slides.length;
       this.index += direction;
       if(this.index === deckSize) { // wrap around
@@ -54,40 +55,43 @@ class Slideshow {
       else if(this.index === -1) {
         this.index = deckSize - 1;
       }
-      return this.slides[this.index];
+      this.dom.src = this.slides[this.index];
   }
 }
 
-dogSlides = new Slideshow(deckNums.DOG_DECK, ["/images/dog/dog0.jpg", "/images/dog/dog1.jpg", "/images/dog/dog2.jpg"]);
-placeSlides = new Slideshow(deckNums.PLACE_DECK, ["/images/place/place0.jpg", "/images/place/place1.jpg", "/images/place/place2.jpg"]);
-foodSlides = new Slideshow(deckNums.PLACE_DECK, ["/images/food/food0.jpg", "/images/food/food1.jpg", "/images/food/food2.jpg"]);
+dogSlides = new Slideshow(
+  deckNums.DOG_DECK,
+  ["/images/dog/dog0.jpg", "/images/dog/dog1.jpg", "/images/dog/dog2.jpg"],
+  document.getElementById("dog-slide"));
+placeSlides = new Slideshow(
+  deckNums.PLACE_DECK,
+  ["/images/place/place0.jpg", "/images/place/place1.jpg", "/images/place/place2.jpg"],
+  document.getElementById("place-slide"));
+foodSlides = new Slideshow(
+  deckNums.FOOD_DECK,
+  ["/images/food/food0.jpg", "/images/food/food1.jpg", "/images/food/food2.jpg"],
+  document.getElementById("food-slide"));
 
 document.getElementById("prev-dog-slide-button").onclick = function() {
-  const newImage = dogSlides.changeSlide(PREV_SLIDE_DIR);
-  document.getElementById("dog-slide").src = newImage;
+  dogSlides.changeSlide(PREV_SLIDE_DIR);
 }
 
 document.getElementById('next-dog-slide-button').onclick = function() {
-  const newImage = dogSlides.changeSlide(NEXT_SLIDE_DIR);
-  document.getElementById("dog-slide").src = newImage;
+  dogSlides.changeSlide(NEXT_SLIDE_DIR);
 }
 
 document.getElementById('prev-place-slide-button').onclick = function() {
-  const newImage = placeSlides.changeSlide(PREV_SLIDE_DIR);
-  document.getElementById("place-slide").src = newImage;
+  placeSlides.changeSlide(PREV_SLIDE_DIR);
 }
 
 document.getElementById('next-place-slide-button').onclick = function() {
-  const newImage = placeSlides.changeSlide(NEXT_SLIDE_DIR);
-  document.getElementById("place-slide").src = newImage;
+  placeSlides.changeSlide(NEXT_SLIDE_DIR);
 }
 
 document.getElementById('prev-food-slide-button').onclick = function() {
-  const newImage = foodSlides.changeSlide(PREV_SLIDE_DIR);
-  document.getElementById("food-slide").src = newImage;
+  foodSlides.changeSlide(PREV_SLIDE_DIR);
 }
 
 document.getElementById('next-food-slide-button').onclick = function() {
-  const newImage = foodSlides.changeSlide(NEXT_SLIDE_DIR);
-  document.getElementById("food-slide").src = newImage;
+  foodSlides.changeSlide(NEXT_SLIDE_DIR);
 }
