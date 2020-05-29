@@ -44,6 +44,16 @@ const PREV_SLIDE_DIR = -1;
 const NEXT_SLIDE_DIR = 1;
 let slideIndices = [0, 0, 0]; // array of slide indices for each slide deck
 
+function preloadImages()
+{
+    for(let i = 0; i < SLIDES.length; i++) {
+        for(let j = 0; j < SLIDES[i].length; j++) {
+            var img = new Image();
+            img.src = SLIDES[i][j];
+        }
+    }
+}
+
 function changeSlide(deckNum, direction) {
   const deckSize = SLIDES[deckNum].length;
   let slideIndex = slideIndices[deckNum];
@@ -56,6 +66,8 @@ function changeSlide(deckNum, direction) {
   }
   slideIndices[deckNum] = slideIndex;
 }
+
+preloadImages();
 
 document.getElementById("prev-dog-slide-button").onclick = function() {
   changeSlide(decks.DOG_DECK, PREV_SLIDE_DIR);
