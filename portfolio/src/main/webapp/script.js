@@ -28,6 +28,15 @@ function addRandomFact() {
 }
 
 /**
+ * Adds a greeting to the page using Promises
+ */
+function addGreeting() {
+  fetch('/greeting').then(response => response.text()).then((greeting) => {
+    document.getElementById('greeting-button').innerText = greeting;
+  });
+}
+
+/**
  * Controls slideshow image display on the page
  */
 const deckNums = { // Enumerate slide decks
