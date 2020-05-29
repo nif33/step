@@ -30,71 +30,64 @@ function addRandomFact() {
 /**
  * Controls slideshow image display on the page
  */
-const decks = { // Enumerate slide decks
+const deckNums = { // Enumerate slide decks
   DOG_DECK: 0,
   PLACE_DECK: 1,
   FOOD_DECK: 2,
 };
 
-const SLIDES = [["/images/dog/dog0.jpg", "/images/dog/dog1.jpg", "/images/dog/dog2.jpg"],
-  ["/images/place/place0.jpg", "/images/place/place1.jpg", "/images/place/place2.jpg"],
-  ["/images/food/food0.jpg", "/images/food/food1.jpg", "/images/food/food2.jpg"]]
-
 const PREV_SLIDE_DIR = -1;
 const NEXT_SLIDE_DIR = 1;
-let slideIndices = [0, 0, 0]; // array of slide indices for each slide deck
 
-function preloadImages()
-{
-    for(let i = 0; i < SLIDES.length; i++) {
-        for(let j = 0; j < SLIDES[i].length; j++) {
-            var img = new Image();
-            img.src = SLIDES[i][j];
-        }
-    }
+class Slideshow {
+  constructor(idNum, slides) {
+    this.index = 0;
+    this.idNum = idNum;
+    this.slides = slides;
+  }
+  changeSlide(direction) { // returns new slide image string
+      const deckSize = this.slides.length;
+      this.index += direction;
+      if(this.index === deckSize) { // wrap around
+        this.index = 0;
+      }
+      else if(this.index === -1) {
+        this.index = deckSize - 1;
+      }
+      return this.slides[this.index];
+  }
 }
 
-function changeSlide(deckNum, direction) {
-  const deckSize = SLIDES[deckNum].length;
-  let slideIndex = slideIndices[deckNum];
-  slideIndex += direction;
-  if(slideIndex === deckSize) { // wrap around
-      slideIndex = 0;
-  }
-  else if(slideIndex === -1) {
-      slideIndex = deckSize - 1;
-  }
-  slideIndices[deckNum] = slideIndex;
-}
-
-preloadImages();
+dogSlides = new Slideshow(deckNums.DOG_DECK, ["/images/dog/dog0.jpg", "/images/dog/dog1.jpg", "/images/dog/dog2.jpg"]);
+placeSlides = new Slideshow(deckNums.PLACE_DECK, ["/images/place/place0.jpg", "/images/place/place1.jpg", "/images/place/place2.jpg"]);
+foodSlides = new Slideshow(deckNums.PLACE_DECK, ["/images/food/food0.jpg", "/images/food/food1.jpg", "/images/food/food2.jpg"]);
 
 document.getElementById("prev-dog-slide-button").onclick = function() {
-  changeSlide(decks.DOG_DECK, PREV_SLIDE_DIR);
-  document.getElementById("dog-slide").src = SLIDES[decks.DOG_DECK][slideIndices[decks.DOG_DECK]];
+  const newImage = dogSlides.changeSlide(PREV_SLIDE_DIR);
+  document.getElementById("dog-slide").src = newImage;
 }
 
 document.getElementById('next-dog-slide-button').onclick = function() {
-  changeSlide(decks.DOG_DECK, NEXT_SLIDE_DIR);
-  document.getElementById("dog-slide").src = SLIDES[decks.DOG_DECK][slideIndices[decks.DOG_DECK]];
+  const newImage = dogSlides.changeSlide(NEXT_SLIDE_DIR);
+  document.getElementById("dog-slide").src = newImage;
 }
 
 document.getElementById('prev-place-slide-button').onclick = function() {
-  changeSlide(decks.PLACE_DECK, PREV_SLIDE_DIR);
-  document.getElementById("place-slide").src = SLIDES[decks.PLACE_DECK][slideIndices[decks.PLACE_DECK]];
+  const newImage = placeSlides.changeSlide(PREV_SLIDE_DIR);
+  document.getElementById("place-slide").src = newImage;
 }
 
 document.getElementById('next-place-slide-button').onclick = function() {
-  changeSlide(decks.PLACE_DECK, NEXT_SLIDE_DIR);
-  document.getElementById("place-slide").src = SLIDES[decks.PLACE_DECK][slideIndices[decks.PLACE_DECK]];
+  const newImage = placeSlides.changeSlide(NEXT_SLIDE_DIR);
+  document.getElementById("place-slide").src = newImage;
 }
 
 document.getElementById('prev-food-slide-button').onclick = function() {
-  changeSlide(decks.FOOD_DECK, PREV_SLIDE_DIR);
-  document.getElementById("food-slide").src = SLIDES[decks.FOOD_DECK][slideIndices[decks.FOOD_DECK]];
+  const newImage = foodSlides.changeSlide(PREV_SLIDE_DIR);
+  document.getElementById("food-slide").src = newImage;
 }
 
 document.getElementById('next-food-slide-button').onclick = function() {
-  changeSlide(decks.FOOD_DECK, NEXT_SLIDE_DIR);
-  document.getElementById("food-slide").src = SLIDES[decks.FOOD_DECK][slideIndices[decks.FOOD_DECK]];
+  const newImage = foodSlides.changeSlide(NEXT_SLIDE_DIR);
+  document.getElementById("food-slide").src = newImage;
 }
