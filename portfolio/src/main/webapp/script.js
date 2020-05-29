@@ -40,6 +40,8 @@ const SLIDES = [["/images/dog/dog0.jpg", "/images/dog/dog1.jpg", "/images/dog/do
   ["/images/place/place0.jpg", "/images/place/place1.jpg", "/images/place/place2.jpg"],
   ["/images/food/food0.jpg", "/images/food/food1.jpg", "/images/food/food2.jpg"]]
 
+const PREV_SLIDE_DIR = -1;
+const NEXT_SLIDE_DIR = 1;
 let slideIndices = [0, 0, 0]; // array of slide indices for each slide deck
 
 function changeSlide(deckNum, direction) {
@@ -56,31 +58,31 @@ function changeSlide(deckNum, direction) {
 }
 
 document.getElementById("prev-dog-slide-button").onclick = function() {
-  changeSlide(decks.DOG_DECK, -1);
+  changeSlide(decks.DOG_DECK, PREV_SLIDE_DIR);
   document.getElementById("dog-slide").src = SLIDES[decks.DOG_DECK][slideIndices[decks.DOG_DECK]];
 }
 
 document.getElementById('next-dog-slide-button').onclick = function() {
-  changeSlide(decks.DOG_DECK, 1);
+  changeSlide(decks.DOG_DECK, NEXT_SLIDE_DIR);
   document.getElementById("dog-slide").src = SLIDES[decks.DOG_DECK][slideIndices[decks.DOG_DECK]];
 }
 
 document.getElementById('prev-place-slide-button').onclick = function() {
-  changeSlide(decks.PLACE_DECK, -1);
+  changeSlide(decks.PLACE_DECK, PREV_SLIDE_DIR);
   document.getElementById("place-slide").src = SLIDES[decks.PLACE_DECK][slideIndices[decks.PLACE_DECK]];
 }
 
 document.getElementById('next-place-slide-button').onclick = function() {
-  changeSlide(decks.PLACE_DECK, 1);
+  changeSlide(decks.PLACE_DECK, NEXT_SLIDE_DIR);
   document.getElementById("place-slide").src = SLIDES[decks.PLACE_DECK][slideIndices[decks.PLACE_DECK]];
 }
 
 document.getElementById('prev-food-slide-button').onclick = function() {
-  changeSlide(decks.FOOD_DECK, 1);
+  changeSlide(decks.FOOD_DECK, PREV_SLIDE_DIR);
   document.getElementById("food-slide").src = SLIDES[decks.FOOD_DECK][slideIndices[decks.FOOD_DECK]];
 }
 
 document.getElementById('next-food-slide-button').onclick = function() {
-  changeSlide(decks.FOOD_DECK, 1);
+  changeSlide(decks.FOOD_DECK, NEXT_SLIDE_DIR);
   document.getElementById("food-slide").src = SLIDES[decks.FOOD_DECK][slideIndices[decks.FOOD_DECK]];
 }
