@@ -8,10 +8,16 @@
   </head>
   <body>
     <div id="content">
+      <div id="menu">
+        <h2>
+        <a href="index.html">Home</a>&nbsp&nbsp
+        <a href="https://ca.linkedin.com/in/jennifer-dai">LinkedIn</a>&nbsp&nbsp
+        <a href="https://github.com/nif33">Github</a>&nbsp&nbsp
+        </h2>
+      </div>
+
       <div id="header">
         <h1>Jennifer Dai's Portfolio</h1>
-        <a href="https://ca.linkedin.com/in/jennifer-dai">LinkedIn</a>
-        <a href="https://github.com/nif33">Github</a>
       </div>
 
       <p>Click here to get a random fact about me:</p>
@@ -19,28 +25,46 @@
       <div id="fact-container"></div>
 
       <h2>Background</h2>
-      <p>I'm a 2nd year Computing Science student at Simon Fraser University. Three fun facts about me: 
-          I have a pet dog named William, my favourite place I've travelled to is Montreal, 
-          and my first day of work at Google was also my 20th birthday!
+      <p>
+        I'm a 2nd year Computing Science student at Simon Fraser University. Three fun facts about me: 
+        I have a pet dog named William, my favourite place I've travelled to is Montreal, 
+        and my first day of work at Google was also my 20th birthday!
       </p>
 
       <h2>Photos of my Dog</h2>
-      <p>This is my dog: William</p>
-      <div>
-        <img class="dog-slides" src="/images/dog/dog0.jpg">
-        <img class="dog-slides" src="/images/dog/dog1.jpg">
-        <img class="dog-slides" src="/images/dog/dog2.jpg">
+      <p>
+        This is my dog: William. People always tell me his name is too human and I know, but I did not choose his name. 
+        He is a 7 year old Miniature Poodle. His hobbies are taking naps, eating snacks, and barking at firetrucks.
+      </p>
+      <div class="dog-slideshow">
+        <img src="/images/dog/dog0.jpg">
+        <button class="prev-slide-button">Previous</button>
+        <button class="next-slide-button">Next</button>
       </div>
 
       <h2>My Favourite Place</h2>
-      <p>I haven't travelled much, but my favourite place I've been to is Montreal</p>
-      <div>
-        <img class="place-slides" src="/images/place/place0.jpg">
-        <img class="place-slides" src="/images/place/place1.jpg">
-        <img class="place-slides" src="/images/place/place2.jpg">
+      <p>
+        I haven't travelled much, but my favourite place I've been to is Montreal. I was there for one month 
+        as part of a french language-learning program. The city had so much culture which was really cool, 
+        but I could never live here because I have heard about their winter weather.
+      </p>
+      <div class="place-slideshow">
+        <img src="/images/place/place0.jpg">
+        <button class="prev-slide-button">Previous</button>
+        <button class="next-slide-button">Next</button>
       </div>
 
+      <h2>My Favourite Food</h2>
+      <p>
+        My favourite food is any brunch food because there are no rules at brunch, anything can be a brunch food if it tries. 
+        I love taking pictures of food, here are some of my brunch photos.
+      </p>
+      <div class="food-slideshow">
+        <img src="/images/food/food0.jpg">
+        <button class="prev-slide-button">Previous</button>
+        <button class="next-slide-button">Next</button>
+      </div>
     </div>
-  <script src="script.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>
