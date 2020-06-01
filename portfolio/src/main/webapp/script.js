@@ -30,9 +30,13 @@ function addRandomFact() {
 /**
  * Adds a greeting to the page using Promises
  */
-function addGreeting() {
-  fetch('/greeting').then(response => response.text()).then((greeting) => {
-    document.getElementById('greeting-button').innerText = greeting;
+function loadComments() {
+  fetch('/data').then(response => response.json()).then((comments) => {
+    for(const comment of comments) {
+      const commentBox = document.createElement("p");
+      commentBox.innerText = comment;
+      document.getElementById('comment-container').appendChild(commentBox);
+    }
   });
 }
 
