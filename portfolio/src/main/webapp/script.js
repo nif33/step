@@ -66,9 +66,9 @@ class Slideshow {
     };
   }
   preloadImages() {
-    for(let i = 0; i < this.slides.length; i++) {
+    for(const slide of this.slides) {
       var img = new Image();
-      img.src = this.slides[i];
+      img.src = slide;
     }
   }
 }
