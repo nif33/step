@@ -54,7 +54,7 @@ class Slideshow {
     const deckSize = this.slides.length;
     this.index += direction;
     this.index = (this.index % deckSize + deckSize) % deckSize; // wrap around
-    let imageDOM = this.slideshowDOM.querySelector("img");
+    const imageDOM = this.slideshowDOM.querySelector("img");
     imageDOM.src = this.slides[this.index];
   }
   addButtons() {
