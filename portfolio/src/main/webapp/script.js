@@ -63,12 +63,11 @@ class Slideshow {
     imageDOM.src = this.slides[this.index];
   }
   addButtons() {
-    let self = this;
-    this.prevButton.onclick = function() {
-      self.changeSlide(PREV_SLIDE_DIR);
+    this.prevButton.onclick = () => {
+      this.changeSlide(PREV_SLIDE_DIR);
     };
-    this.nextButton.onclick = function() {
-      self.changeSlide(NEXT_SLIDE_DIR);
+    this.nextButton.onclick = () => {
+      this.changeSlide(NEXT_SLIDE_DIR);
     };
   }
   preloadImages() {
