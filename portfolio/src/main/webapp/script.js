@@ -45,8 +45,8 @@ class Slideshow {
     this.idNum = idNum;
     this.slides = slides;
     this.slideshowDOM = slideshowDOM;
-    this.prevButton = this.slideshowDOM.querySelectorAll(".prev-slide-button")[0];
-    this.nextButton = this.slideshowDOM.querySelectorAll(".next-slide-button")[0];
+    this.prevButton = this.slideshowDOM.querySelector(".prev-slide-button");
+    this.nextButton = this.slideshowDOM.querySelector(".next-slide-button");
     this.addButtons();
     this.preloadImages();
   }
@@ -54,7 +54,7 @@ class Slideshow {
     const deckSize = this.slides.length;
     this.index += direction;
     this.index = (this.index % deckSize + deckSize) % deckSize; // wrap around
-    let imageDOM = this.slideshowDOM.querySelectorAll("img")[0];
+    let imageDOM = this.slideshowDOM.querySelector("img");
     imageDOM.src = this.slides[this.index];
   }
   addButtons() {
