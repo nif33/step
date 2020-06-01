@@ -49,58 +49,50 @@ const PREV_SLIDE_DIR = -1;
 const NEXT_SLIDE_DIR = 1;
 
 class Slideshow {
-  constructor(idNum, slides, dom) {
+  constructor(idNum, slides, slideshowDOM) {
     this.index = 0;
     this.idNum = idNum;
     this.slides = slides;
-    this.dom = dom;
+    this.slideshowDOM = slideshowDOM;
+    this.prevButton = this.slideshowDOM.querySelector(".prev-slide-button");
+    this.nextButton = this.slideshowDOM.querySelector(".next-slide-button");
+    this.addButtons();
+    this.preloadImages();
   }
   changeSlide(direction) {
-      const deckSize = this.slides.length;
-      this.index += direction;
-      if(this.index === deckSize) { // wrap around
-        this.index = 0;
-      }
-      else if(this.index === -1) {
-        this.index = deckSize - 1;
-      }
-      this.dom.src = this.slides[this.index];
+    const deckSize = this.slides.length;
+    this.index += direction;
+    this.index = (this.index % deckSize + deckSize) % deckSize; // wrap around
+    const imageDOM = this.slideshowDOM.querySelector("img");
+    imageDOM.src = this.slides[this.index];
+  }
+  addButtons() {
+    this.prevButton.onclick = () => {
+      this.changeSlide(PREV_SLIDE_DIR);
+    };
+    this.nextButton.onclick = () => {
+      this.changeSlide(NEXT_SLIDE_DIR);
+    };
+  }
+  preloadImages() {
+    for(const slide of this.slides) {
+      var img = new Image();
+      img.src = slide;
+    }
   }
 }
 
 dogSlides = new Slideshow(
   deckNums.DOG_DECK,
   ["/images/dog/dog0.jpg", "/images/dog/dog1.jpg", "/images/dog/dog2.jpg"],
-  document.getElementById("dog-slide"));
+  document.querySelector('.dog-slideshow'));
+
 placeSlides = new Slideshow(
   deckNums.PLACE_DECK,
   ["/images/place/place0.jpg", "/images/place/place1.jpg", "/images/place/place2.jpg"],
-  document.getElementById("place-slide"));
+  document.querySelector('.place-slideshow'));
+
 foodSlides = new Slideshow(
   deckNums.FOOD_DECK,
   ["/images/food/food0.jpg", "/images/food/food1.jpg", "/images/food/food2.jpg"],
-  document.getElementById("food-slide"));
-
-document.getElementById("prev-dog-slide-button").onclick = function() {
-  dogSlides.changeSlide(PREV_SLIDE_DIR);
-}
-
-document.getElementById('next-dog-slide-button').onclick = function() {
-  dogSlides.changeSlide(NEXT_SLIDE_DIR);
-}
-
-document.getElementById('prev-place-slide-button').onclick = function() {
-  placeSlides.changeSlide(PREV_SLIDE_DIR);
-}
-
-document.getElementById('next-place-slide-button').onclick = function() {
-  placeSlides.changeSlide(NEXT_SLIDE_DIR);
-}
-
-document.getElementById('prev-food-slide-button').onclick = function() {
-  foodSlides.changeSlide(PREV_SLIDE_DIR);
-}
-
-document.getElementById('next-food-slide-button').onclick = function() {
-  foodSlides.changeSlide(NEXT_SLIDE_DIR);
-}
+  document.querySelector('.food-slideshow'));
