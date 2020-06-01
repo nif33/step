@@ -40,58 +40,57 @@ const PREV_SLIDE_DIR = -1;
 const NEXT_SLIDE_DIR = 1;
 
 class Slideshow {
-  constructor(idNum, slides, dom) {
+  constructor(idNum, slides, slideshowDOM) {
     this.index = 0;
     this.idNum = idNum;
     this.slides = slides;
-    this.dom = dom;
+    this.slideshowDOM = slideshowDOM;
+    this.prevButton = this.slideshowDOM.querySelectorAll(".prev-slide-button")[0];
+    this.nextButton = this.slideshowDOM.querySelectorAll(".next-slide-button")[0];
+    this.addButtons();
+    this.preloadImages();
   }
   changeSlide(direction) {
-      const deckSize = this.slides.length;
-      this.index += direction;
-      if(this.index === deckSize) { // wrap around
-        this.index = 0;
-      }
-      else if(this.index === -1) {
-        this.index = deckSize - 1;
-      }
-      this.dom.src = this.slides[this.index];
+    const deckSize = this.slides.length;
+    this.index += direction;
+    if(this.index === deckSize) { // wrap around
+      this.index = 0;
+    }
+    else if(this.index === -1) {
+      this.index = deckSize - 1;
+    }
+    console.log("clicked");
+    let imageDOM = this.slideshowDOM.querySelectorAll(".image")[0];
+    imageDOM.src = this.slides[this.index];
+  }
+  addButtons() {
+    let self = this;
+    this.prevButton.onclick = function() {
+      self.changeSlide(PREV_SLIDE_DIR);
+    };
+    this.nextButton.onclick = function() {
+      self.changeSlide(NEXT_SLIDE_DIR);
+    };
+  }
+  preloadImages() {
+    for(let i = 0; i < this.slides.length; i++) {
+      var img = new Image();
+      img.src = this.slides[i];
+    }
   }
 }
 
 dogSlides = new Slideshow(
   deckNums.DOG_DECK,
   ["/images/dog/dog0.jpg", "/images/dog/dog1.jpg", "/images/dog/dog2.jpg"],
-  document.getElementById("dog-slide"));
+  document.querySelector('.dog-slideshow'));
+
 placeSlides = new Slideshow(
   deckNums.PLACE_DECK,
   ["/images/place/place0.jpg", "/images/place/place1.jpg", "/images/place/place2.jpg"],
-  document.getElementById("place-slide"));
+  document.querySelector('.place-slideshow'));
+
 foodSlides = new Slideshow(
   deckNums.FOOD_DECK,
   ["/images/food/food0.jpg", "/images/food/food1.jpg", "/images/food/food2.jpg"],
-  document.getElementById("food-slide"));
-
-document.getElementById("prev-dog-slide-button").onclick = function() {
-  dogSlides.changeSlide(PREV_SLIDE_DIR);
-}
-
-document.getElementById('next-dog-slide-button').onclick = function() {
-  dogSlides.changeSlide(NEXT_SLIDE_DIR);
-}
-
-document.getElementById('prev-place-slide-button').onclick = function() {
-  placeSlides.changeSlide(PREV_SLIDE_DIR);
-}
-
-document.getElementById('next-place-slide-button').onclick = function() {
-  placeSlides.changeSlide(NEXT_SLIDE_DIR);
-}
-
-document.getElementById('prev-food-slide-button').onclick = function() {
-  foodSlides.changeSlide(PREV_SLIDE_DIR);
-}
-
-document.getElementById('next-food-slide-button').onclick = function() {
-  foodSlides.changeSlide(NEXT_SLIDE_DIR);
-}
+  document.querySelector('.food-slideshow'));
