@@ -59,7 +59,7 @@ class Slideshow {
     else if(this.index === -1) {
       this.index = deckSize - 1;
     }
-    let imageDOM = this.slideshowDOM.querySelectorAll(".image")[0];
+    let imageDOM = this.slideshowDOM.querySelectorAll("img")[0];
     imageDOM.src = this.slides[this.index];
   }
   addButtons() {
