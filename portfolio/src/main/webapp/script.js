@@ -53,12 +53,7 @@ class Slideshow {
   changeSlide(direction) {
     const deckSize = this.slides.length;
     this.index += direction;
-    if(this.index === deckSize) { // wrap around
-      this.index = 0;
-    }
-    else if(this.index === -1) {
-      this.index = deckSize - 1;
-    }
+    this.index = (this.index % deckSize + deckSize) % deckSize; // wrap around
     let imageDOM = this.slideshowDOM.querySelectorAll("img")[0];
     imageDOM.src = this.slides[this.index];
   }
