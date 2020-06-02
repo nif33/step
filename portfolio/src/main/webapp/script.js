@@ -51,19 +51,12 @@ function loadComments() {
 /**
  * Controls slideshow image display on the page
  */
-const deckNums = { // Enumerate slide decks
-  DOG_DECK: 0,
-  PLACE_DECK: 1,
-  FOOD_DECK: 2,
-};
-
 const PREV_SLIDE_DIR = -1;
 const NEXT_SLIDE_DIR = 1;
 
 class Slideshow {
-  constructor(idNum, slides, slideshowDOM) {
+  constructor(slides, slideshowDOM) {
     this.index = 0;
-    this.idNum = idNum;
     this.slides = slides;
     this.slideshowDOM = slideshowDOM;
     this.prevButton = this.slideshowDOM.querySelector(".prev-slide-button");
@@ -95,16 +88,13 @@ class Slideshow {
 }
 
 dogSlides = new Slideshow(
-  deckNums.DOG_DECK,
   ["/images/dog/dog0.jpg", "/images/dog/dog1.jpg", "/images/dog/dog2.jpg"],
   document.querySelector('.dog-slideshow'));
 
 placeSlides = new Slideshow(
-  deckNums.PLACE_DECK,
   ["/images/place/place0.jpg", "/images/place/place1.jpg", "/images/place/place2.jpg"],
   document.querySelector('.place-slideshow'));
 
 foodSlides = new Slideshow(
-  deckNums.FOOD_DECK,
   ["/images/food/food0.jpg", "/images/food/food1.jpg", "/images/food/food2.jpg"],
   document.querySelector('.food-slideshow'));
