@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private static ArrayList<String> comments = new ArrayList(Arrays.asList("Hi there!", "How are you?", "Howdy"));
+  private static ArrayList<String> comments = new ArrayList();
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
