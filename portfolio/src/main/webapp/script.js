@@ -31,10 +31,9 @@ function addRandomFact() {
  * Adds a new Comment Box to the page
  */
 function newCommentBox(comment){
-  const commentBox = document.createElement("p");
-  commentBox.id = "comment"
+  const commentBox = document.createElement('p');
+  commentBox.id = 'comment'
   commentBox.innerText = comment;
-  document.getElementById('comment-container').appendChild(commentBox);
 }
 
 /**
@@ -43,7 +42,7 @@ function newCommentBox(comment){
 function loadComments() {
   fetch('/data').then(response => response.json()).then((comments) => {
     for(const comment of comments) {
-      newCommentBox(comment);
+      document.getElementById('comment-container').appendChild(newCommentBox(comment));
     }
   });
 }
