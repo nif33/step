@@ -7,6 +7,13 @@
   width: 50%;
 }
 
+.comment{
+  width: 25%;
+  background-color: white;
+  margin: 1% 5%;
+  padding: 1em;
+}
+
 #content {
   margin-left: auto;
   margin-left: auto;
@@ -30,13 +37,6 @@
   background-color: deepskyblue;
   background-repeat: no-repeat;
   background-size: cover;
-}
-
-#comment{
-  width: 25%;
-  background-color: white;
-  margin: 1% 5%;
-  padding: 1em;
 }
 
 body{

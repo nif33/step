@@ -32,7 +32,7 @@ function addRandomFact() {
  */
 function newCommentBox(comment){
   const commentBox = document.createElement('p');
-  commentBox.id = 'comment'
+  commentBox.className = 'comment'
   commentBox.innerText = comment;
 }
 
