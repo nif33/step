@@ -34,6 +34,7 @@ function newCommentBox(comment){
   const commentBox = document.createElement('p');
   commentBox.className = 'comment'
   commentBox.innerText = comment;
+  return commentBox;
 }
 
 /**
