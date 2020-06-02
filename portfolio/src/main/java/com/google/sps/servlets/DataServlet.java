@@ -37,7 +37,7 @@ public class DataServlet extends HttpServlet {
     String comment = request.getParameter("comment-input");
 
     comments.add(comment);
-    response.sendRedirect("/index.html");
+    response.sendRedirect("/index.html#comment-section");
   }
 
   @Override
