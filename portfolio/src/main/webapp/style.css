@@ -32,6 +32,13 @@
   background-size: cover;
 }
 
+#comment{
+  width: 25%;
+  background-color: white;
+  margin: 1% 5%;
+  padding: 1em;
+}
+
 body{
   margin: auto;
   padding: auto;
