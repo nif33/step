@@ -17,6 +17,7 @@ package com.google.sps.servlets;
 import com.google.gson.Gson;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -49,7 +50,7 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(json);
   }
 
-  private String convertToJsonUsingGson(List<String> comments) {
+  private String convertToJsonUsingGson(ArrayList<String> comments) {
     Gson gson = new Gson();
     String json = gson.toJson(comments);
     return json;
