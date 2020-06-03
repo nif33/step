@@ -31,9 +31,19 @@ function addRandomFact() {
  * Adds a new Comment Box to the page
  */
 function newCommentBox(comment){
-  const commentBox = document.createElement('p');
+  // create comment elements
+  const commentBox = document.createElement('div');
+  const commentName = document.createElement('p');
+  const commentText = document.createElement('p');
+
+  // set text for elements
+  commentName.innerHTML = comment.name;
+  commentText.innerHTML = comment.text;
+
+  // append elements to comment box
   commentBox.className = 'comment'
-  commentBox.innerText = comment;
+  commentBox.appendChild(commentName);
+  commentBox.appendChild(commentText);
   return commentBox;
 }
 
