@@ -37,8 +37,8 @@ function newCommentBox(comment){
   const commentText = document.createElement('p');
 
   // set text for elements
-  commentName.innerHTML = comment.name + ':';
-  commentText.innerHTML = comment.text;
+  commentName.innerText = comment.name + ':';
+  commentText.innerText = comment.text;
 
   // append elements to comment box
   commentBox.className = 'comment'
