@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Servlet that handles comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
@@ -59,8 +59,25 @@ public class DataServlet extends HttpServlet {
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
+    // Get number of comments to display
+    int numCommentsToDisplay;
+    try {
+      numCommentsToDisplay = Integer.parseInt(request.getParameter("limit"));
+      System.err.println(request.getParameter("limit"));
+    } catch (NumberFormatException e) {
+      System.err.println("Input for limit invalid. Displaying default number.");
+      numCommentsToDisplay = 5;
+    }
+
     ArrayList<Comment> comments = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
+      // Check whether has reached comment display limit
+      if(numCommentsToDisplay == 0) {
+        break;
+      }
+      numCommentsToDisplay--;
+
+      // Get information for comment object
       long id = entity.getKey().getId();
       String name = (String) entity.getProperty("name");
       String text = (String) entity.getProperty("text");
@@ -72,7 +89,7 @@ public class DataServlet extends HttpServlet {
 
     // Convert the messages to JSON
     String json = convertToJsonUsingGson(comments);
-
+  System.out.println(json);
     // Send the JSON as the response
     response.setContentType("application/json;");
     response.getWriter().println(json);

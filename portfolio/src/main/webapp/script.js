@@ -48,12 +48,20 @@ function newCommentBox(comment){
 }
 
 /**
- * Adds a greeting to the page using Promises
+ * Adds comments to the page using Promises
  */
 function loadComments() {
-  fetch('/data').then(response => response.json()).then((comments) => {
+  const commentContainer = document.getElementById('comment-container');
+  const parameters = location.search;
+  // Clear previous children
+  while(commentContainer.lastElementChild) {
+    commentContainer.removeChild(commentContainer.lastElementChild);
+  }
+
+  // Repopulate comment section
+  fetch('/data'+parameters).then(response => response.json()).then((comments) => {
     for(const comment of comments) {
-      document.getElementById('comment-container').appendChild(newCommentBox(comment));
+      commentContainer.appendChild(newCommentBox(comment));
     }
   });
 }
