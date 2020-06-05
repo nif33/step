@@ -21,6 +21,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.FetchOptions;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +33,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Servlet that handles comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
@@ -59,8 +60,22 @@ public class DataServlet extends HttpServlet {
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
+    // Get number of comments to display
+    int numCommentsToDisplay;
+    try {
+      numCommentsToDisplay = Integer.parseInt(request.getParameter("limit"));
+      numCommentsToDisplay = Math.abs(numCommentsToDisplay); // convert to positive number
+    } catch (NumberFormatException e) {
+      System.err.println("Input for limit invalid. Displaying default number.");
+      numCommentsToDisplay = 5;
+    }
+
+    // Maximum number of comments for display is 50
+    numCommentsToDisplay = Math.min(numCommentsToDisplay, 50);
+
     ArrayList<Comment> comments = new ArrayList<>();
-    for (Entity entity : results.asIterable()) {
+    for (Entity entity : results.asIterable(FetchOptions.Builder.withLimit(numCommentsToDisplay))) {
+      // Get information for comment object
       long id = entity.getKey().getId();
       String name = (String) entity.getProperty("name");
       String text = (String) entity.getProperty("text");
