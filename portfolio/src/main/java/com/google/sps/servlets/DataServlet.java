@@ -89,7 +89,7 @@ public class DataServlet extends HttpServlet {
 
     // Convert the messages to JSON
     String json = convertToJsonUsingGson(comments);
-  System.out.println(json);
+    
     // Send the JSON as the response
     response.setContentType("application/json;");
     response.getWriter().println(json);

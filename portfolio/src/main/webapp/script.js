@@ -47,16 +47,19 @@ function newCommentBox(comment){
   return commentBox;
 }
 
+function clearChildren(dom) {
+  while(dom.lastElementChild) {
+    dom.removeChild(dom.lastElementChild);
+  }
+}
+
 /**
  * Adds comments to the page using Promises
  */
 function loadComments() {
   const commentContainer = document.getElementById('comment-container');
   const parameters = location.search;
-  // Clear previous children
-  while(commentContainer.lastElementChild) {
-    commentContainer.removeChild(commentContainer.lastElementChild);
-  }
+  clearChildren(commentContainer);
 
   // Repopulate comment section
   fetch('/data'+parameters).then(response => response.json()).then((comments) => {
@@ -65,6 +68,33 @@ function loadComments() {
     }
   });
 }
+
+function verifyDelete() {
+  var inputWord = prompt('What\'s the magic word?');
+  if (inputWord == 'please') {
+    alert('Comments have been deleted.')
+    return true;
+  } else {
+    alert('That word is not magic.');
+    return false;
+  }
+}
+
+/**
+ * Deletes all the comments from the page
+ */
+ function deleteComments() {
+   if (!verifyDelete()) {
+      return;
+   }
+
+   const commentContainer = document.getElementById('comment-container');
+   const request = new Request('/delete-data', {method: 'POST'});
+
+   fetch(request).then(() => {
+     clearChildren(commentContainer);
+   });
+ }
 
 /**
  * Controls slideshow image display on the page
