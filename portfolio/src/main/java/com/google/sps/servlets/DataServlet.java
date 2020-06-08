@@ -52,7 +52,6 @@ public class DataServlet extends HttpServlet {
     commentEntity.setProperty("timestamp", timestamp);
 
     datastore.put(commentEntity);
-    response.sendRedirect("/index.html#comment-section");
   }
 
   @Override

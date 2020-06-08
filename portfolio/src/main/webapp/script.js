@@ -54,7 +54,7 @@ function clearChildren(dom) {
 }
 
 /**
- * Adds comments to the page using Promises
+ * Loads comments to the page
  */
 function loadComments() {
   const commentContainer = document.getElementById('comment-container');
@@ -70,6 +70,23 @@ function loadComments() {
     for(const comment of comments) {
       commentContainer.appendChild(newCommentBox(comment));
     }
+  });
+}
+
+/**
+ * Add a new comment to the page from form input
+ */
+function addComment() {
+  const commentContainer = document.getElementById('comment-container');
+  const nameInput = document.getElementById("name-input").value;
+  const commentInput = document.getElementById("comment-input").value;
+  const request = new Request(
+    `/data?name-input=${nameInput}&comment-input=${commentInput}`,
+    {method: 'POST'}
+  );
+  fetch(request).then(() => {
+    const newComment = {name:nameInput, text:commentInput};
+    commentContainer.appendChild(newCommentBox(newComment));
   });
 }
 

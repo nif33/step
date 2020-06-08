@@ -79,16 +79,16 @@
       </form>
       <div id="comment-container"></div>
 
-      <form action="/data" method="POST">
+      <form>
         <label for="name-input">Name:</label><br>
-        <textarea name="name-input"></textarea>
+        <textarea name="name-input" id="name-input"></textarea>
         <br/><br/>
 
         <label for="comment-input">Comment:</label><br>
-        <textarea name="comment-input"></textarea>
+        <textarea name="comment-input" id="comment-input"></textarea>
         <br/><br/>
 
-        <input type="submit"/>
+        <input type="button" value="Search" onclick="return addComment()"/>
       </form>
 
       <button onclick="deleteComments()">Delete All Comments</button>
