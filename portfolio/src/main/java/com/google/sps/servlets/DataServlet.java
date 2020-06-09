@@ -24,6 +24,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Transaction;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,7 +54,6 @@ public class DataServlet extends HttpServlet {
     commentEntity.setProperty("text", text);
     commentEntity.setProperty("timestamp", timestamp);
     commentEntity.setProperty("numReports", 0);
-
     datastore.put(commentEntity);
   }
 
