@@ -35,16 +35,29 @@ function newCommentBox(comment){
   const commentBox = document.createElement('div');
   const commentName = document.createElement('p');
   const commentText = document.createElement('p');
+  const commentReport = document.createElement('a');
 
-  // set text for elements
+  // set info for elements
   commentName.innerText = comment.name + ':';
   commentText.innerText = comment.text;
+  commentReport.innerText = "Report";
+  commentReport.onclick = function() {
+    addReport(comment.id);
+  };
 
   // append elements to comment box
   commentBox.className = 'comment'
   commentBox.appendChild(commentName);
   commentBox.appendChild(commentText);
+  commentBox.appendChild(commentReport);
   return commentBox;
+}
+
+function addReport(id) {
+  const request = new Request(`/report?id=${id}`, {method: 'POST'});
+  fetch(request).then((response) => {
+    alert("Your report will be processed.");
+  });
 }
 
 function clearChildren(dom) {
@@ -110,8 +123,7 @@ function addComment() {
     {method: 'POST'}
   );
   fetch(request).then(() => {
-    const newComment = {name:nameInput, text:commentInput};
-    commentContainer.appendChild(newCommentBox(newComment));
+    loadComments();
   });
 }
 
