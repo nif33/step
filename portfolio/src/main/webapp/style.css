@@ -7,8 +7,8 @@
   width: 50%;
 }
 
-.comment{
-  width: 25%;
+.comment, #comment-form{
+  width: 40%;
   background-color: white;
   margin: 1% 5%;
   padding: 1em;
@@ -61,12 +61,21 @@ h2 {
   padding-left: 5%;
 }
 
-p, marquee {
+p, form{
   font-size: 1.2em;
   padding: 0% 5%;
 }
 
-button {
+select, input{
+  background-color: lightslategray;
+  border: none;
+  color: white;
+  text-align: center;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+button{
   background-color: lightslategray;
   border: none;
   color: white;

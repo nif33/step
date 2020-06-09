@@ -47,16 +47,98 @@ function newCommentBox(comment){
   return commentBox;
 }
 
+function clearChildren(dom) {
+  while(dom.lastElementChild) {
+    dom.removeChild(dom.lastElementChild);
+  }
+}
+
 /**
- * Adds a greeting to the page using Promises
+ * Loads comments to the page
  */
 function loadComments() {
-  fetch('/data').then(response => response.json()).then((comments) => {
+  const commentContainer = document.getElementById('comment-container');
+  const limit = document.getElementById("limit").value;
+
+  // Clear previous children
+  clearChildren(commentContainer);
+
+  // Repopulate comment section
+  fetch(`/data?limit=${limit}`).then(response => response.json()).then((comments) => {
     for(const comment of comments) {
-      document.getElementById('comment-container').appendChild(newCommentBox(comment));
+      commentContainer.appendChild(newCommentBox(comment));
     }
   });
 }
+
+function shouldDelete() {
+  var inputWord = prompt('What\'s the magic word?');
+  if (inputWord == 'please') {
+    alert('Comments have been deleted.')
+    return true;
+  } else {
+    alert('That word is not magic.');
+    return false;
+  }
+}
+
+/**
+ * Deletes all the comments from the page
+ */
+ function deleteComments() {
+   if (!shouldDelete()) {
+      return;
+   }
+
+   const commentContainer = document.getElementById('comment-container');
+   const request = new Request('/delete-data', {method: 'POST'});
+
+   fetch(request).then(() => {
+     clearChildren(commentContainer);
+   });
+ }
+
+/**
+ * Add a new comment to the page from form input
+ */
+function addComment() {
+  const commentContainer = document.getElementById('comment-container');
+  const nameInput = document.getElementById("name-input").value;
+  const commentInput = document.getElementById("comment-input").value;
+  const request = new Request(
+    `/data?name-input=${nameInput}&comment-input=${commentInput}`,
+    {method: 'POST'}
+  );
+  fetch(request).then(() => {
+    loadComments();
+  });
+}
+
+function verifyDelete() {
+  var inputWord = prompt('What\'s the magic word?');
+  if (inputWord == 'please') {
+    alert('Comments have been deleted.')
+    return true;
+  }
+  alert('That word is not magic.');
+  return false;
+}
+
+/**
+ * Deletes all the comments from the page
+ */
+ function deleteComments() {
+   if (!verifyDelete()) {
+      return;
+   }
+
+   const commentContainer = document.getElementById('comment-container');
+   const request = new Request('/delete-data', {method: 'POST'});
+
+   fetch(request).then(() => {
+     clearChildren(commentContainer);
+   });
+ }
 
 /**
  * Controls slideshow image display on the page

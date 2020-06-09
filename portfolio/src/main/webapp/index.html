@@ -27,14 +27,14 @@
 
       <h2>Background</h2>
       <p>
-        I'm a 2nd year Computing Science student at Simon Fraser University. Three fun facts about me: 
-        I have a pet dog named William, my favourite place I've travelled to is Montreal, 
+        I'm a 2nd year Computing Science student at Simon Fraser University. Three fun facts about me:
+        I have a pet dog named William, my favourite place I've travelled to is Montreal,
         and my first day of work at Google was also my 20th birthday!
       </p>
 
       <h2>Photos of my Dog</h2>
       <p>
-        This is my dog: William. People always tell me his name is too human and I know, but I did not choose his name. 
+        This is my dog: William. People always tell me his name is too human and I know, but I did not choose his name.
         He is a 7 year old Miniature Poodle. His hobbies are taking naps, eating snacks, and barking at firetrucks.
       </p>
       <div class="dog-slideshow">
@@ -45,8 +45,8 @@
 
       <h2>My Favourite Place</h2>
       <p>
-        I haven't travelled much, but my favourite place I've been to is Montreal. I was there for one month 
-        as part of a french language-learning program. The city had so much culture which was really cool, 
+        I haven't travelled much, but my favourite place I've been to is Montreal. I was there for one month
+        as part of a french language-learning program. The city had so much culture which was really cool,
         but I could never live here because I have heard about their winter weather.
       </p>
       <div class="place-slideshow">
@@ -57,7 +57,7 @@
 
       <h2>My Favourite Food</h2>
       <p>
-        My favourite food is any brunch food because there are no rules at brunch, anything can be a brunch food if it tries. 
+        My favourite food is any brunch food because there are no rules at brunch, anything can be a brunch food if it tries.
         I love taking pictures of food, here are some of my brunch photos.
       </p>
       <div class="food-slideshow">
@@ -65,21 +65,33 @@
         <button class="prev-slide-button">Previous</button>
         <button class="next-slide-button">Next</button>
       </div>
-    
+
       <h2 id="comment-section">Comments</h2>
+
+      <form>
+        <label for="limit">Show Comments:</label>
+        <select onchange="loadComments()" name="limit" id="limit">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+        </select>
+      </form>
       <div id="comment-container"></div>
 
-      <form action="/data" method="POST">
-        <label for="name">Name:</label><br>
-        <textarea name="name-input"></textarea>
+      <form>
+        <label for="name-input">Name:</label><br>
+        <textarea name="name-input" id="name-input"></textarea>
         <br/><br/>
 
-        <label for="comment">Comment:</label><br>
-        <textarea name="comment-input"></textarea>
+        <label for="comment-input">Comment:</label><br>
+        <textarea name="comment-input" id="comment-input"></textarea>
         <br/><br/>
 
-        <input type="submit"/>
+        <input type="button" value="Search" onclick="return addComment()"/>
       </form>
+
+      <button onclick="deleteComments()">Delete All Comments</button>
 
     </div>
     <script src="script.js"></script>
