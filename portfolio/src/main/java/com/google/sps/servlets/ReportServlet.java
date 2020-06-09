@@ -23,6 +23,7 @@ public class ReportServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String id = request.getParameter("id");
+<<<<<<< HEAD
     Key commentKey;
     Entity commentEntity;
     try {
@@ -35,5 +36,17 @@ public class ReportServlet extends HttpServlet {
     numReports++;
     commentEntity.setProperty("numReports", numReports);
     datastore.put(commentEntity);
+=======
+    try {
+      Key commentKey = KeyFactory.stringToKey(id);
+  		Entity commentEntity = datastore.get(commentKey);
+      long numReports = (long) commentEntity.getProperty("numReports");
+      numReports++;
+      commentEntity.setProperty("numReports", numReports);
+      datastore.put(commentEntity);
+  	} catch (EntityNotFoundException e) {
+  		throw new RuntimeException("Key is not an entity in the database");
+  	}
+>>>>>>> 38206fd589393d9ccc59a8d0a9501403467321cb
   }
 }
