@@ -127,32 +127,6 @@ function addComment() {
   });
 }
 
-function verifyDelete() {
-  var inputWord = prompt('What\'s the magic word?');
-  if (inputWord == 'please') {
-    alert('Comments have been deleted.')
-    return true;
-  }
-  alert('That word is not magic.');
-  return false;
-}
-
-/**
- * Deletes all the comments from the page
- */
- function deleteComments() {
-   if (!verifyDelete()) {
-      return;
-   }
-
-   const commentContainer = document.getElementById('comment-container');
-   const request = new Request('/delete-data', {method: 'POST'});
-
-   fetch(request).then(() => {
-     clearChildren(commentContainer);
-   });
- }
-
 /**
  * Controls slideshow image display on the page
  */
