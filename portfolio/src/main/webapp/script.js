@@ -13,6 +13,15 @@
 // limitations under the License.
 
 /**
+ * Creates a map and adds it to the page
+ */
+function initMap() {
+  const map = new google.maps.Map(
+    document.getElementById("map"),
+    {center: { lat: 49.250, lng: -122.982 }, zoom: 12});
+}
+
+/**
  * Adds a random fact to the page.
  */
 function addRandomFact() {
@@ -83,33 +92,6 @@ function loadComments() {
     }
   });
 }
-
-function verifyDelete() {
-  var inputWord = prompt('What\'s the magic word?');
-  if (inputWord == 'please') {
-    alert('Comments have been deleted.')
-    return true;
-  } else {
-    alert('That word is not magic.');
-    return false;
-  }
-}
-
-/**
- * Deletes all the comments from the page
- */
- function deleteComments() {
-   if (!verifyDelete()) {
-      return;
-   }
-
-   const commentContainer = document.getElementById('comment-container');
-   const request = new Request('/delete-data', {method: 'POST'});
-
-   fetch(request).then(() => {
-     clearChildren(commentContainer);
-   });
- }
 
 /**
  * Add a new comment to the page from form input
