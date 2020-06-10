@@ -16,9 +16,75 @@
  * Creates a map and adds it to the page
  */
 function initMap() {
-  const map = new google.maps.Map(
-    document.getElementById("map"),
-    {center: { lat: 49.250, lng: -122.982 }, zoom: 12});
+  const styledMapType = new google.maps.StyledMapType(
+    [
+      {
+        "featureType": "landscape.man_made",
+        "elementType": "geometry.fill",
+        "stylers": [
+          {
+            "color": "#ffe4e1"
+          }
+        ]
+      },
+      {
+        "featureType": "landscape.natural",
+        "elementType": "geometry.fill",
+        "stylers": [
+          {
+            "color": "#d5e9dd"
+          }
+        ]
+      },
+      {
+        "featureType": "poi.park",
+        "elementType": "geometry.fill",
+        "stylers": [
+          {
+            "color": "#c5e5e0"
+          }
+        ]
+      },
+      {
+        "featureType": "road.highway",
+        "elementType": "geometry.fill",
+        "stylers": [
+          {
+            "color": "#c3dbf2"
+          }
+        ]
+      },
+      {
+        "featureType": "road.highway",
+        "elementType": "geometry.stroke",
+        "stylers": [
+          {
+            "color": "#778899"
+          }
+        ]
+      },
+      {
+        "featureType": "water",
+        "elementType": "geometry.fill",
+        "stylers": [
+          {
+            "color": "#d3f0fa"
+          }
+        ]
+      }
+    ],
+    {name: 'Styled Map'});
+
+    const map = new google.maps.Map(document.getElementById("map"), {
+      center: { lat: 49.250, lng: -122.982 },
+      zoom: 12,
+      mapTypeControlOptions: {
+        mapTypeIds: ['roadmap', 'styled_map']
+      }
+    });
+
+    map.mapTypes.set('styled_map', styledMapType);
+    map.setMapTypeId('styled_map');
 }
 
 /**
