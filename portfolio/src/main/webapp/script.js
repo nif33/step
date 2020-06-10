@@ -84,7 +84,7 @@ function loadComments() {
   });
 }
 
-function verifyDelete() {
+function shouldDelete() {
   var inputWord = prompt('What\'s the magic word?');
   if (inputWord == 'please') {
     alert('Comments have been deleted.')
@@ -99,7 +99,7 @@ function verifyDelete() {
  * Deletes all the comments from the page
  */
  function deleteComments() {
-   if (!verifyDelete()) {
+   if (!shouldDelete()) {
       return;
    }
 
