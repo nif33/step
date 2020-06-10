@@ -35,13 +35,13 @@ function newCommentBox(comment){
   const commentBox = document.createElement('div');
   const commentName = document.createElement('p');
   const commentText = document.createElement('p');
-  const commentReport = document.createElement('a');
+  const reportComment = document.createElement('a');
 
   // set info for elements
   commentName.innerText = comment.name + ':';
   commentText.innerText = comment.text;
-  commentReport.innerText = "Report";
-  commentReport.onclick = function() {
+  reportComment.innerText = "Report";
+  reportComment.onclick = function() {
     addReport(comment.id);
   };
 
@@ -49,7 +49,7 @@ function newCommentBox(comment){
   commentBox.className = 'comment'
   commentBox.appendChild(commentName);
   commentBox.appendChild(commentText);
-  commentBox.appendChild(commentReport);
+  commentBox.appendChild(reportComment);
   return commentBox;
 }
 
