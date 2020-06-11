@@ -86,26 +86,97 @@ function initMap() {
     map.mapTypes.set('styled_map', styledMapType);
     map.setMapTypeId('styled_map');
 
-    const locations = [
-      {
-        name: "My School",
-        coords: {lat: 49.278, lng: -122.914},
-      }, {
-        name: "My Favourite Cafe",
-        coords: {lat: 49.221, lng: -122.995}
-      }, {
-        name: "My Favourite Park",
-        coords: {lat: 49.124, lng: -123.184}
-      }
-    ];
+    map.addListener('click', (event) => {
+      createVisitorMarker(map, event.latLng.lat(), event.latLng.lng());
+    });
 
-    for(const location of locations){
-      const marker = new google.maps.Marker({
-        title: location.name,
-        position: location.coords,
+    addMyMapMarkers(map);
+    addVisitorMarkers(map);
+}
+
+/** Fetches markers from the backend and adds them to the map. */
+function addVisitorMarkers(map) {
+  fetch('/markers').then(response => response.json()).then((markers) => {
+    for(marker of markers){
+      const visitorMarker = new google.maps.Marker({
+        title: 'A visitor is from here!',
+        position: {lat: marker.lat, lng: marker.lng},
         map: map
       });
     }
+  });
+}
+
+/** Creates a marker where visitors can submit. */
+function createVisitorMarker(map, lat, lng) {
+  const visitorMarker = new google.maps.Marker({position: {lat: lat, lng: lng}, map: map});
+  const infoWindow = new google.maps.InfoWindow({content: buildInfoWindow(map, lat, lng)});
+
+  google.maps.event.addListener(infoWindow, 'closeclick', () => {
+    visitorMarker.setMap(null);
+  });
+
+  infoWindow.open(map, visitorMarker);
+}
+
+/**
+ * Builds and returns HTML elements that show submit button
+ */
+function buildInfoWindow(map, lat, lng) {
+  const prompt = document.createElement('p');
+  const textBox = document.createElement('textarea');
+  const button = document.createElement('button');
+  prompt.innerText = "What city are you visiting from?";
+  button.innerText = "I'm here!";
+
+  button.onclick = () => {
+    postMarker(lat, lng, textBox.value);
+  };
+
+  const containerDiv = document.createElement('div');
+  containerDiv.appendChild(prompt);
+  containerDiv.appendChild(textBox);
+  containerDiv.appendChild(button);
+
+  return containerDiv;
+}
+
+/** Sends a marker to the backend for saving. */
+function postMarker(lat, lng, city) {
+  const params = new URLSearchParams();
+  params.append('lat', lat);
+  params.append('lng', lng);
+  params.append('city', city);
+
+  fetch('/markers', {method: 'POST', body: params}).then((response) => {
+    alert("Thanks for visiting!");
+  });
+}
+
+/*
+ * Adds hard-coded marker locations to map
+ */
+function addMyMapMarkers(map){
+  const locations = [
+    {
+      name: "My School",
+      coords: {lat: 49.278, lng: -122.914},
+    }, {
+      name: "My Favourite Cafe",
+      coords: {lat: 49.221, lng: -122.995}
+    }, {
+      name: "My Favourite Park",
+      coords: {lat: 49.124, lng: -123.184}
+    }
+  ];
+
+  for(const location of locations){
+    const marker = new google.maps.Marker({
+      title: location.name,
+      position: location.coords,
+      map: map
+    });
+  }
 }
 
 /**
