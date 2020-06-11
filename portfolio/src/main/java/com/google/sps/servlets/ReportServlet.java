@@ -22,39 +22,39 @@ public class ReportServlet extends HttpServlet {
 
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-  public int incrementReportCount(String id, int numRetries) {
-    Transaction transaction = datastore.beginTransaction();
-    try {
-      try {
-        Key commentKey = KeyFactory.stringToKey(id);
-        Entity commentEntity = datastore.get(commentKey);
-        long numReports = (long) commentEntity.getProperty("numReports");
-        numReports++;
-        commentEntity.setProperty("numReports", numReports);
-        datastore.put(transaction, commentEntity);
-        transaction.commit();
-      } catch (EntityNotFoundException e) {
-        System.err.println("Key is not an entity in the database");
-      }
-      return 0;
-    } catch (ConcurrentModificationException e) {
-      if(numRetries == 0) {
-        throw e;
-      }
-      return --numRetries;
-    } finally {
-      if(transaction.isActive()) {
-        transaction.rollback();
-      }
+  public boolean incrementReportCount(String id, Transaction transaction) throws EntityNotFoundException, ConcurrentModificationException {
+    Key commentKey = KeyFactory.stringToKey(id);
+    Entity commentEntity = datastore.get(commentKey);
+    if(commentEntity == null) {
+      return false;
     }
+    long numReports = (long) commentEntity.getProperty("numReports");
+    numReports++;
+    commentEntity.setProperty("numReports", numReports);
+    datastore.put(transaction, commentEntity);
+    transaction.commit();
+    return true;
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Transaction transaction = datastore.beginTransaction();
     String id = request.getParameter("id");
-    int numRetries = 3;
-    while(numRetries > 0) {
-      numRetries = incrementReportCount(id, numRetries);
+    for(int numRetries = 3; numRetries > 0; numRetries--) {
+      try {
+        incrementReportCount(id, transaction);
+        break;
+      } catch (EntityNotFoundException e) {
+        response.sendError(HttpServletResponse.SC_NOT_FOUND, "Key was not found in the database.");
+      } catch (ConcurrentModificationException e) {
+        if(numRetries == 0) {
+          response.sendError(HttpServletResponse.SC_CONFLICT, "Too many concurrent modification attempts.");
+        }
+      } finally {
+        if(transaction.isActive()) {
+          transaction.rollback();
+        }
+      }
     }
   }
 }
