@@ -22,18 +22,14 @@ public class ReportServlet extends HttpServlet {
 
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-  public boolean incrementReportCount(String id, Transaction transaction) throws EntityNotFoundException, ConcurrentModificationException {
+  public void incrementReportCount(String id, Transaction transaction) throws EntityNotFoundException, ConcurrentModificationException {
     Key commentKey = KeyFactory.stringToKey(id);
-    Entity commentEntity = datastore.get(commentKey);
-    if(commentEntity == null) {
-      return false;
-    }
+    Entity commentEntity = datastore.get(transaction, commentKey);
     long numReports = (long) commentEntity.getProperty("numReports");
     numReports++;
     commentEntity.setProperty("numReports", numReports);
     datastore.put(transaction, commentEntity);
     transaction.commit();
-    return true;
   }
 
   @Override
