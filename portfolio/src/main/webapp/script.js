@@ -35,16 +35,29 @@ function newCommentBox(comment){
   const commentBox = document.createElement('div');
   const commentName = document.createElement('p');
   const commentText = document.createElement('p');
+  const reportComment = document.createElement('a');
 
-  // set text for elements
+  // set info for elements
   commentName.innerText = comment.name + ':';
   commentText.innerText = comment.text;
+  reportComment.innerText = "Report";
+  reportComment.onclick = function() {
+    addReport(comment.id);
+  };
 
   // append elements to comment box
   commentBox.className = 'comment'
   commentBox.appendChild(commentName);
   commentBox.appendChild(commentText);
+  commentBox.appendChild(reportComment);
   return commentBox;
+}
+
+function addReport(id) {
+  const request = new Request(`/report?id=${id}`, {method: 'POST'});
+  fetch(request).then((response) => {
+    alert("Your report will be processed.");
+  });
 }
 
 function clearChildren(dom) {
@@ -113,32 +126,6 @@ function addComment() {
     loadComments();
   });
 }
-
-function verifyDelete() {
-  var inputWord = prompt('What\'s the magic word?');
-  if (inputWord == 'please') {
-    alert('Comments have been deleted.')
-    return true;
-  }
-  alert('That word is not magic.');
-  return false;
-}
-
-/**
- * Deletes all the comments from the page
- */
- function deleteComments() {
-   if (!verifyDelete()) {
-      return;
-   }
-
-   const commentContainer = document.getElementById('comment-container');
-   const request = new Request('/delete-data', {method: 'POST'});
-
-   fetch(request).then(() => {
-     clearChildren(commentContainer);
-   });
- }
 
 /**
  * Controls slideshow image display on the page
