@@ -73,39 +73,60 @@ function initMap() {
         ]
       }
     ],
-    {name: 'Styled Map'});
+  {name: 'Styled Map'});
 
-    const map = new google.maps.Map(document.getElementById("map"), {
-      center: {lat: 49.250, lng: -122.982},
-      zoom: 12,
-      mapTypeControlOptions: {
-        mapTypeIds: ['roadmap', 'styled_map']
-      }
-    });
-
-    map.mapTypes.set('styled_map', styledMapType);
-    map.setMapTypeId('styled_map');
-
-    const locations = [
-      {
-        name: "My School",
-        coords: {lat: 49.278, lng: -122.914},
-      }, {
-        name: "My Favourite Cafe",
-        coords: {lat: 49.221, lng: -122.995}
-      }, {
-        name: "My Favourite Park",
-        coords: {lat: 49.124, lng: -123.184}
-      }
-    ];
-
-    for(const location of locations){
-      const marker = new google.maps.Marker({
-        title: location.name,
-        position: location.coords,
-        map: map
-      });
+  const map = new google.maps.Map(document.getElementById("map"), {
+    center: {lat: 49.250, lng: -122.982},
+    zoom: 11,
+    mapTypeControlOptions: {
+      mapTypeIds: ['roadmap', 'styled_map']
     }
+  });
+
+  map.mapTypes.set('styled_map', styledMapType);
+  map.setMapTypeId('styled_map');
+
+  addMyMapMarkers(map);
+}
+
+function addMyMapMarkers(map){
+  const locations = [
+    {
+      name: "My School",
+      coords: {lat: 49.278, lng: -122.914},
+      info: 'This is my school, Simon Fraser University, it is on a mountain which means it takes 20 minutes just to commute up the mountain!'
+    }, {
+      name: "My Favourite Cafe",
+      coords: {lat: 49.221, lng: -122.995},
+      info: 'This is a great study spot on weekdays but on weekends it is far too busy and loud.'
+    }, {
+      name: "My Favourite Park",
+      coords: {lat: 49.124, lng: -123.184},
+      info: 'I see swans and seals here sometimes. Also there is a great ice cream shop here.'
+    }
+  ];
+
+  for(const location of locations){
+    // create DOM element for infowindow
+    const infoText = document.createElement('p');
+    const title = document.createElement('strong');
+    title.appendChild(document.createTextNode(location.name));
+    infoText.appendChild(title);
+    infoText.appendChild(document.createElement('br'));
+    infoText.appendChild(document.createTextNode(location.info));
+
+    const infowindow = new google.maps.InfoWindow({
+      content: infoText
+    });
+    const marker = new google.maps.Marker({
+      title: location.name,
+      position: location.coords,
+      map: map
+    });
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+  }
 }
 
 /**
