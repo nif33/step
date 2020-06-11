@@ -76,7 +76,7 @@ function initMap() {
     {name: 'Styled Map'});
 
     const map = new google.maps.Map(document.getElementById("map"), {
-      center: { lat: 49.250, lng: -122.982 },
+      center: {lat: 49.250, lng: -122.982},
       zoom: 12,
       mapTypeControlOptions: {
         mapTypeIds: ['roadmap', 'styled_map']
@@ -85,6 +85,27 @@ function initMap() {
 
     map.mapTypes.set('styled_map', styledMapType);
     map.setMapTypeId('styled_map');
+
+    const locations = [
+      {
+        name: "My School",
+        coords: {lat: 49.278, lng: -122.914},
+      }, {
+        name: "My Favourite Cafe",
+        coords: {lat: 49.221, lng: -122.995}
+      }, {
+        name: "My Favourite Park",
+        coords: {lat: 49.124, lng: -123.184}
+      }
+    ];
+
+    for(const location of locations){
+      const marker = new google.maps.Marker({
+        title: location.name,
+        position: location.coords,
+        map: map
+      });
+    }
 }
 
 /**
