@@ -13,6 +13,15 @@
 // limitations under the License.
 
 /**
+ * Creates a map and adds it to the page
+ */
+function initMap() {
+  const map = new google.maps.Map(
+    document.getElementById("map"),
+    {center: { lat: 49.250, lng: -122.982 }, zoom: 12});
+}
+
+/**
  * Adds a random fact to the page.
  */
 function addRandomFact() {
