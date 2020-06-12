@@ -46,11 +46,13 @@ function drawChart() {
     });
 
     const options = {
-      'width': 500,
-      'height': 400
+      width: 800,
+      height: 500,
+      legend: 'none',
+      colors: ['#778899'],
     };
 
-    const chart = new google.visualization.BarChart(document.getElementById('chart-container'));
+    const chart = new google.visualization.BarChart(document.getElementById('chart'));
     chart.draw(data, options);
   });
 }
