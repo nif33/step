@@ -12,6 +12,49 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+/*
+ * Counts the number of times each city occurs in a list of markers. Returns {[city, count],...}
+ */
+function countMarkers(markers) {
+  const markerCounts = {};
+  for(marker of markers) {
+    const city = marker.city;
+    if(markerCounts[city] == null) {
+      markerCounts[city] = 0;
+    }
+    markerCounts[city] += 1
+  }
+  return markerCounts;
+}
+
+/*
+ * Creates a chart and adds it to the page.
+ */
+function drawChart() {
+  fetch('/markers')
+  .then(response => response.json())
+  .then(markers => countMarkers(markers))
+  .then((markerCounts) => {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'City');
+    data.addColumn('number', 'Count');
+    Object.keys(markerCounts).forEach((city) => {
+      data.addRow([city, markerCounts[city]]);
+    });
+
+    const options = {
+      'width': 500,
+      'height': 400
+    };
+
+    const chart = new google.visualization.BarChart(document.getElementById('chart-container'));
+    chart.draw(data, options);
+  });
+}
+
 /**
  * Creates a map and adds it to the page
  */
