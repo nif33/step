@@ -16,9 +16,117 @@
  * Creates a map and adds it to the page
  */
 function initMap() {
-  const map = new google.maps.Map(
-    document.getElementById("map"),
-    {center: { lat: 49.250, lng: -122.982 }, zoom: 12});
+  const styledMapType = new google.maps.StyledMapType(
+    [
+      {
+        'featureType': 'landscape.man_made',
+        'elementType': 'geometry.fill',
+        'stylers': [
+          {
+            'color': '#ffe4e1'
+          }
+        ]
+      },
+      {
+        'featureType': 'landscape.natural',
+        'elementType': 'geometry.fill',
+        'stylers': [
+          {
+            'color': '#d5e9dd'
+          }
+        ]
+      },
+      {
+        'featureType': 'poi.park',
+        'elementType': 'geometry.fill',
+        'stylers': [
+          {
+            'color': '#c5e5e0'
+          }
+        ]
+      },
+      {
+        'featureType': 'road.highway',
+        'elementType': 'geometry.fill',
+        'stylers': [
+          {
+            'color': '#c3dbf2'
+          }
+        ]
+      },
+      {
+        'featureType': 'road.highway',
+        'elementType': 'geometry.stroke',
+        'stylers': [
+          {
+            'color': '#778899'
+          }
+        ]
+      },
+      {
+        'featureType': 'water',
+        'elementType': 'geometry.fill',
+        'stylers': [
+          {
+            'color': '#d3f0fa'
+          }
+        ]
+      }
+    ],
+  {name: 'Styled Map'});
+
+  const map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 49.250, lng: -122.982},
+    zoom: 11,
+    mapTypeControlOptions: {
+      mapTypeIds: ['roadmap', 'styled_map']
+    }
+  });
+
+  map.mapTypes.set('styled_map', styledMapType);
+  map.setMapTypeId('styled_map');
+
+  addMyMapMarkers(map);
+}
+
+function addMyMapMarkers(map){
+  const locations = [
+    {
+      name: 'My School',
+      coords: {lat: 49.278, lng: -122.914},
+      info: 'This is my school, Simon Fraser University, it is on a mountain which means it takes 20 minutes just to commute up the mountain!'
+    }, {
+      name: 'My Favourite Cafe',
+      coords: {lat: 49.221, lng: -122.995},
+      info: 'This is a great study spot on weekdays but on weekends it is far too busy and loud.'
+    }, {
+      name: 'My Favourite Park',
+      coords: {lat: 49.124, lng: -123.184},
+      info: 'I see swans and seals here sometimes. Also there is a great ice cream shop here.'
+    }
+  ];
+
+  for(const location of locations){
+    // create DOM element for infowindow
+    const infoText = document.createElement('p');
+    const title = document.createElement('strong');
+    title.appendChild(document.createTextNode(location.name));
+    infoText.appendChild(title);
+    infoText.appendChild(document.createElement('br'));
+    infoText.appendChild(document.createTextNode(location.info));
+
+    const infoWindow = new google.maps.InfoWindow({
+      content: infoText
+    });
+    const marker = new google.maps.Marker({
+      title: location.name,
+      position: location.coords,
+      map: map
+    });
+    marker.addListener('click', function() {
+      infoWindow.open(map, marker);
+    });
+  }
 }
 
 /**
@@ -49,7 +157,7 @@ function newCommentBox(comment){
   // set info for elements
   commentName.innerText = comment.name + ':';
   commentText.innerText = comment.text;
-  reportComment.innerText = "Report";
+  reportComment.innerText = 'Report';
   reportComment.onclick = function() {
     addReport(comment.id);
   };
@@ -65,7 +173,7 @@ function newCommentBox(comment){
 function addReport(id) {
   const request = new Request(`/report?id=${id}`, {method: 'POST'});
   fetch(request).then((response) => {
-    alert("Your report will be processed.");
+    alert('Your report will be processed.');
   });
 }
 
@@ -80,7 +188,7 @@ function clearChildren(dom) {
  */
 function loadComments() {
   const commentContainer = document.getElementById('comment-container');
-  const limit = document.getElementById("limit").value;
+  const limit = document.getElementById('limit').value;
 
   // Clear previous children
   clearChildren(commentContainer);
@@ -147,8 +255,8 @@ class Slideshow {
     this.index = 0;
     this.slides = slides;
     this.slideshowDOM = slideshowDOM;
-    this.prevButton = this.slideshowDOM.querySelector(".prev-slide-button");
-    this.nextButton = this.slideshowDOM.querySelector(".next-slide-button");
+    this.prevButton = this.slideshowDOM.querySelector('.prev-slide-button');
+    this.nextButton = this.slideshowDOM.querySelector('.next-slide-button');
     this.addButtons();
     this.preloadImages();
   }
@@ -156,7 +264,7 @@ class Slideshow {
     const deckSize = this.slides.length;
     this.index += direction;
     this.index = (this.index % deckSize + deckSize) % deckSize; // wrap around
-    const imageDOM = this.slideshowDOM.querySelector("img");
+    const imageDOM = this.slideshowDOM.querySelector('img');
     imageDOM.src = this.slides[this.index];
   }
   addButtons() {
@@ -176,13 +284,13 @@ class Slideshow {
 }
 
 dogSlides = new Slideshow(
-  ["/images/dog/dog0.jpg", "/images/dog/dog1.jpg", "/images/dog/dog2.jpg"],
+  ['/images/dog/dog0.jpg', '/images/dog/dog1.jpg', '/images/dog/dog2.jpg'],
   document.querySelector('.dog-slideshow'));
 
 placeSlides = new Slideshow(
-  ["/images/place/place0.jpg", "/images/place/place1.jpg", "/images/place/place2.jpg"],
+  ['/images/place/place0.jpg', '/images/place/place1.jpg', '/images/place/place2.jpg'],
   document.querySelector('.place-slideshow'));
 
 foodSlides = new Slideshow(
-  ["/images/food/food0.jpg", "/images/food/food1.jpg", "/images/food/food2.jpg"],
+  ['/images/food/food0.jpg', '/images/food/food1.jpg', '/images/food/food2.jpg'],
   document.querySelector('.food-slideshow'));
