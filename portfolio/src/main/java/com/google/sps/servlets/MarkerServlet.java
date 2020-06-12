@@ -48,7 +48,7 @@ public class MarkerServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) {
     double lat = Double.parseDouble(request.getParameter("lat"));
     double lng = Double.parseDouble(request.getParameter("lng"));
-    String city = (String) request.getParameter("city");
+    String city = request.getParameter("city");
     city = city.toUpperCase();
 
     Entity markerEntity = new Entity("Marker");
