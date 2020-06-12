@@ -201,37 +201,22 @@ function loadComments() {
   });
 }
 
-/**
- * Add a new comment to the page from form input
- */
-function addComment() {
-  const commentContainer = document.getElementById('comment-container');
-  const nameInput = document.getElementById('name-input').value;
-  const commentInput = document.getElementById('comment-input').value;
-  const request = new Request(
-    `/data?name-input=${nameInput}&comment-input=${commentInput}`,
-    {method: 'POST'}
-  );
-  fetch(request).then(() => {
-    loadComments();
-  });
-}
-
-function verifyDelete() {
+function shouldDelete() {
   var inputWord = prompt('What\'s the magic word?');
   if (inputWord == 'please') {
     alert('Comments have been deleted.')
     return true;
+  } else {
+    alert('That word is not magic.');
+    return false;
   }
-  alert('That word is not magic.');
-  return false;
 }
 
 /**
  * Deletes all the comments from the page
  */
  function deleteComments() {
-   if (!verifyDelete()) {
+   if (!shouldDelete()) {
       return;
    }
 
@@ -242,6 +227,22 @@ function verifyDelete() {
      clearChildren(commentContainer);
    });
  }
+
+/**
+ * Add a new comment to the page from form input
+ */
+function addComment() {
+  const commentContainer = document.getElementById('comment-container');
+  const nameInput = document.getElementById("name-input").value;
+  const commentInput = document.getElementById("comment-input").value;
+  const request = new Request(
+    `/data?name-input=${nameInput}&comment-input=${commentInput}`,
+    {method: 'POST'}
+  );
+  fetch(request).then(() => {
+    loadComments();
+  });
+}
 
 /**
  * Controls slideshow image display on the page
