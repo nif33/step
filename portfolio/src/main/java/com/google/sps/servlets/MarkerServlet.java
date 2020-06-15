@@ -32,8 +32,7 @@ public class MarkerServlet extends HttpServlet {
       double lng = (double) entity.getProperty("lng");
       String city = (String) entity.getProperty("city");
 
-      Marker marker = new Marker(lat, lng, city);
-      markers.add(marker);
+      markers.add(new Marker(lat, lng, city));
     }
 
     Gson gson = new Gson();
@@ -45,9 +44,15 @@ public class MarkerServlet extends HttpServlet {
 
   /** Accepts a POST request containing a new marker. */
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) {
-    double lat = Double.parseDouble(request.getParameter("lat"));
-    double lng = Double.parseDouble(request.getParameter("lng"));
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    double lat = 0;
+    double lng = 0;
+    try {
+      lat = Double.parseDouble(request.getParameter("lat"));
+      lng = Double.parseDouble(request.getParameter("lng"));
+    } catch (NumberFormatException e) {
+      response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, "coordinate is not able to cast into Double");
+    }
     String city = request.getParameter("city");
     city = city.toUpperCase();
 
