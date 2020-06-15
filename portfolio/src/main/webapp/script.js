@@ -87,7 +87,10 @@ function initMap() {
   map.setMapTypeId('styled_map');
 
   map.addListener('click', (event) => {
-    createVisitorMarker(map, event.latLng.lat(), event.latLng.lng());
+    lat = event.latLng.lat();
+    lng = event.latLng.lng();
+    const infoWindow = new google.maps.InfoWindow({content: buildInfoWindow(lat, lng)});
+    const visitorMarker = createVisitorMarker(map, lat, lng, infoWindow);
   });
 
   addMyMapMarkers(map);
@@ -108,9 +111,8 @@ function addVisitorMarkers(map) {
 }
 
 /** Creates a marker where visitors can submit. */
-function createVisitorMarker(map, lat, lng) {
+function createVisitorMarker(map, lat, lng, infoWindow) {
   const visitorMarker = new google.maps.Marker({position: {lat: lat, lng: lng}, map: map});
-  const infoWindow = new google.maps.InfoWindow({content: buildInfoWindow(map, lat, lng)});
 
   google.maps.event.addListener(infoWindow, 'closeclick', () => {
     visitorMarker.setMap(null);
@@ -122,7 +124,7 @@ function createVisitorMarker(map, lat, lng) {
 /**
  * Builds and returns HTML elements that show submit button
  */
-function buildInfoWindow(map, lat, lng) {
+function buildInfoWindow(lat, lng) {
   const prompt = document.createElement('p');
   const textBox = document.createElement('textarea');
   const button = document.createElement('button');
