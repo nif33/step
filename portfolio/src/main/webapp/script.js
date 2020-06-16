@@ -86,9 +86,80 @@ function initMap() {
   map.mapTypes.set('styled_map', styledMapType);
   map.setMapTypeId('styled_map');
 
+  map.addListener('click', (event) => {
+    lat = event.latLng.lat();
+    lng = event.latLng.lng();
+    const infoWindow = new google.maps.InfoWindow({content: buildInfoWindow(lat, lng)});
+    const visitorMarker = createVisitorMarker(map, lat, lng, infoWindow);
+  });
+
   addMyMapMarkers(map);
+  addVisitorMarkers(map);
 }
 
+/** Fetches markers from the backend and adds them to the map. */
+function addVisitorMarkers(map) {
+  fetch('/markers').then(response => response.json()).then((markers) => {
+    for(marker of markers){
+      const visitorMarker = new google.maps.Marker({
+        title: 'A visitor is from here!',
+        position: {lat: marker.lat, lng: marker.lng},
+        map: map
+      });
+    }
+  });
+}
+
+/** Creates a marker where visitors can submit. */
+function createVisitorMarker(map, lat, lng, infoWindow) {
+  const visitorMarker = new google.maps.Marker({position: {lat: lat, lng: lng}, map: map});
+
+  google.maps.event.addListener(infoWindow, 'closeclick', () => {
+    visitorMarker.setMap(null);
+  });
+
+  infoWindow.open(map, visitorMarker);
+}
+
+/**
+ * Builds and returns HTML elements that show submit button
+ */
+function buildInfoWindow(lat, lng) {
+  const prompt = document.createElement('p');
+  const textBox = document.createElement('textarea');
+  const button = document.createElement('button');
+  prompt.innerText = "What city are you visiting from?";
+  button.innerText = "I'm here!";
+
+  button.onclick = () => {
+    postMarker(lat, lng, textBox.value);
+  };
+
+  const containerDiv = document.createElement('div');
+  containerDiv.appendChild(prompt);
+  containerDiv.appendChild(textBox);
+  containerDiv.appendChild(button);
+
+  return containerDiv;
+}
+
+/*
+ * Sends a marker to the backend for saving.
+ */
+function postMarker(lat, lng, city) {
+  const params = new URLSearchParams();
+  params.append('lat', lat);
+  params.append('lng', lng);
+  params.append('city', city);
+
+  fetch('/markers', {method: 'POST', body: params}).then((response) => {
+    alert("Thanks for visiting!");
+  });
+}
+
+/*
+ * Adds hard-coded marker locations to map
+ */
 function addMyMapMarkers(map){
   const locations = [
     {
@@ -118,11 +189,13 @@ function addMyMapMarkers(map){
     const infoWindow = new google.maps.InfoWindow({
       content: infoText
     });
+
     const marker = new google.maps.Marker({
       title: location.name,
       position: location.coords,
       map: map
     });
+
     marker.addListener('click', function() {
       infoWindow.open(map, marker);
     });
