@@ -64,79 +64,82 @@ function initMap() {
   const styledMapType = new google.maps.StyledMapType(
     [
       {
-        "featureType": "landscape.man_made",
-        "elementType": "geometry.fill",
-        "stylers": [
+        'featureType': 'landscape.man_made',
+        'elementType': 'geometry.fill',
+        'stylers': [
           {
-            "color": "#ffe4e1"
+            'color': '#ffe4e1'
           }
         ]
       },
       {
-        "featureType": "landscape.natural",
-        "elementType": "geometry.fill",
-        "stylers": [
+        'featureType': 'landscape.natural',
+        'elementType': 'geometry.fill',
+        'stylers': [
           {
-            "color": "#d5e9dd"
+            'color': '#d5e9dd'
           }
         ]
       },
       {
-        "featureType": "poi.park",
-        "elementType": "geometry.fill",
-        "stylers": [
+        'featureType': 'poi.park',
+        'elementType': 'geometry.fill',
+        'stylers': [
           {
-            "color": "#c5e5e0"
+            'color': '#c5e5e0'
           }
         ]
       },
       {
-        "featureType": "road.highway",
-        "elementType": "geometry.fill",
-        "stylers": [
+        'featureType': 'road.highway',
+        'elementType': 'geometry.fill',
+        'stylers': [
           {
-            "color": "#c3dbf2"
+            'color': '#c3dbf2'
           }
         ]
       },
       {
-        "featureType": "road.highway",
-        "elementType": "geometry.stroke",
-        "stylers": [
+        'featureType': 'road.highway',
+        'elementType': 'geometry.stroke',
+        'stylers': [
           {
-            "color": "#778899"
+            'color': '#778899'
           }
         ]
       },
       {
-        "featureType": "water",
-        "elementType": "geometry.fill",
-        "stylers": [
+        'featureType': 'water',
+        'elementType': 'geometry.fill',
+        'stylers': [
           {
-            "color": "#d3f0fa"
+            'color': '#d3f0fa'
           }
         ]
       }
     ],
-    {name: 'Styled Map'});
+  {name: 'Styled Map'});
 
-    const map = new google.maps.Map(document.getElementById("map"), {
-      center: {lat: 49.250, lng: -122.982},
-      zoom: 12,
-      mapTypeControlOptions: {
-        mapTypeIds: ['roadmap', 'styled_map']
-      }
-    });
+  const map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 49.250, lng: -122.982},
+    zoom: 11,
+    mapTypeControlOptions: {
+      mapTypeIds: ['roadmap', 'styled_map']
+    }
+  });
 
-    map.mapTypes.set('styled_map', styledMapType);
-    map.setMapTypeId('styled_map');
+  map.mapTypes.set('styled_map', styledMapType);
+  map.setMapTypeId('styled_map');
 
-    map.addListener('click', (event) => {
-      createVisitorMarker(map, event.latLng.lat(), event.latLng.lng());
-    });
+  map.addListener('click', (event) => {
+    lat = event.latLng.lat();
+    lng = event.latLng.lng();
+    const infoWindow = new google.maps.InfoWindow({content: buildInfoWindow(lat, lng)});
+    const visitorMarker = createVisitorMarker(map, lat, lng, infoWindow);
+  });
 
-    addMyMapMarkers(map);
-    addVisitorMarkers(map);
+  addMyMapMarkers(map);
+  addVisitorMarkers(map);
 }
 
 /** Fetches markers from the backend and adds them to the map. */
@@ -153,9 +156,8 @@ function addVisitorMarkers(map) {
 }
 
 /** Creates a marker where visitors can submit. */
-function createVisitorMarker(map, lat, lng) {
+function createVisitorMarker(map, lat, lng, infoWindow) {
   const visitorMarker = new google.maps.Marker({position: {lat: lat, lng: lng}, map: map});
-  const infoWindow = new google.maps.InfoWindow({content: buildInfoWindow(map, lat, lng)});
 
   google.maps.event.addListener(infoWindow, 'closeclick', () => {
     visitorMarker.setMap(null);
@@ -167,7 +169,7 @@ function createVisitorMarker(map, lat, lng) {
 /**
  * Builds and returns HTML elements that show submit button
  */
-function buildInfoWindow(map, lat, lng) {
+function buildInfoWindow(lat, lng) {
   const prompt = document.createElement('p');
   const textBox = document.createElement('textarea');
   const button = document.createElement('button');
@@ -186,7 +188,9 @@ function buildInfoWindow(map, lat, lng) {
   return containerDiv;
 }
 
-/** Sends a marker to the backend for saving. */
+/*
+ * Sends a marker to the backend for saving.
+ */
 function postMarker(lat, lng, city) {
   const params = new URLSearchParams();
   params.append('lat', lat);
@@ -204,22 +208,41 @@ function postMarker(lat, lng, city) {
 function addMyMapMarkers(map){
   const locations = [
     {
-      name: "My School",
+      name: 'My School',
       coords: {lat: 49.278, lng: -122.914},
+      info: 'This is my school, Simon Fraser University, it is on a mountain which means it takes 20 minutes just to commute up the mountain!'
     }, {
-      name: "My Favourite Cafe",
-      coords: {lat: 49.221, lng: -122.995}
+      name: 'My Favourite Cafe',
+      coords: {lat: 49.221, lng: -122.995},
+      info: 'This is a great study spot on weekdays but on weekends it is far too busy and loud.'
     }, {
-      name: "My Favourite Park",
-      coords: {lat: 49.124, lng: -123.184}
+      name: 'My Favourite Park',
+      coords: {lat: 49.124, lng: -123.184},
+      info: 'I see swans and seals here sometimes. Also there is a great ice cream shop here.'
     }
   ];
 
   for(const location of locations){
+    // create DOM element for infowindow
+    const infoText = document.createElement('p');
+    const title = document.createElement('strong');
+    title.appendChild(document.createTextNode(location.name));
+    infoText.appendChild(title);
+    infoText.appendChild(document.createElement('br'));
+    infoText.appendChild(document.createTextNode(location.info));
+
+    const infoWindow = new google.maps.InfoWindow({
+      content: infoText
+    });
+
     const marker = new google.maps.Marker({
       title: location.name,
       position: location.coords,
       map: map
+    });
+
+    marker.addListener('click', function() {
+      infoWindow.open(map, marker);
     });
   }
 }
@@ -252,7 +275,7 @@ function newCommentBox(comment){
   // set info for elements
   commentName.innerText = comment.name + ':';
   commentText.innerText = comment.text;
-  reportComment.innerText = "Report";
+  reportComment.innerText = 'Report';
   reportComment.onclick = function() {
     addReport(comment.id);
   };
@@ -268,7 +291,7 @@ function newCommentBox(comment){
 function addReport(id) {
   const request = new Request(`/report?id=${id}`, {method: 'POST'});
   fetch(request).then((response) => {
-    alert("Your report will be processed.");
+    alert('Your report will be processed.');
   });
 }
 
@@ -283,7 +306,7 @@ function clearChildren(dom) {
  */
 function loadComments() {
   const commentContainer = document.getElementById('comment-container');
-  const limit = document.getElementById("limit").value;
+  const limit = document.getElementById('limit').value;
 
   // Clear previous children
   clearChildren(commentContainer);
@@ -295,6 +318,33 @@ function loadComments() {
     }
   });
 }
+
+function shouldDelete() {
+  var inputWord = prompt('What\'s the magic word?');
+  if (inputWord == 'please') {
+    alert('Comments have been deleted.')
+    return true;
+  } else {
+    alert('That word is not magic.');
+    return false;
+  }
+}
+
+/**
+ * Deletes all the comments from the page
+ */
+ function deleteComments() {
+   if (!shouldDelete()) {
+      return;
+   }
+
+   const commentContainer = document.getElementById('comment-container');
+   const request = new Request('/delete-data', {method: 'POST'});
+
+   fetch(request).then(() => {
+     clearChildren(commentContainer);
+   });
+ }
 
 /**
  * Add a new comment to the page from form input
@@ -312,32 +362,6 @@ function addComment() {
   });
 }
 
-function verifyDelete() {
-  var inputWord = prompt('What\'s the magic word?');
-  if (inputWord == 'please') {
-    alert('Comments have been deleted.')
-    return true;
-  }
-  alert('That word is not magic.');
-  return false;
-}
-
-/**
- * Deletes all the comments from the page
- */
- function deleteComments() {
-   if (!verifyDelete()) {
-      return;
-   }
-
-   const commentContainer = document.getElementById('comment-container');
-   const request = new Request('/delete-data', {method: 'POST'});
-
-   fetch(request).then(() => {
-     clearChildren(commentContainer);
-   });
- }
-
 /**
  * Controls slideshow image display on the page
  */
@@ -349,8 +373,8 @@ class Slideshow {
     this.index = 0;
     this.slides = slides;
     this.slideshowDOM = slideshowDOM;
-    this.prevButton = this.slideshowDOM.querySelector(".prev-slide-button");
-    this.nextButton = this.slideshowDOM.querySelector(".next-slide-button");
+    this.prevButton = this.slideshowDOM.querySelector('.prev-slide-button');
+    this.nextButton = this.slideshowDOM.querySelector('.next-slide-button');
     this.addButtons();
     this.preloadImages();
   }
@@ -358,7 +382,7 @@ class Slideshow {
     const deckSize = this.slides.length;
     this.index += direction;
     this.index = (this.index % deckSize + deckSize) % deckSize; // wrap around
-    const imageDOM = this.slideshowDOM.querySelector("img");
+    const imageDOM = this.slideshowDOM.querySelector('img');
     imageDOM.src = this.slides[this.index];
   }
   addButtons() {
@@ -378,13 +402,13 @@ class Slideshow {
 }
 
 dogSlides = new Slideshow(
-  ["/images/dog/dog0.jpg", "/images/dog/dog1.jpg", "/images/dog/dog2.jpg"],
+  ['/images/dog/dog0.jpg', '/images/dog/dog1.jpg', '/images/dog/dog2.jpg'],
   document.querySelector('.dog-slideshow'));
 
 placeSlides = new Slideshow(
-  ["/images/place/place0.jpg", "/images/place/place1.jpg", "/images/place/place2.jpg"],
+  ['/images/place/place0.jpg', '/images/place/place1.jpg', '/images/place/place2.jpg'],
   document.querySelector('.place-slideshow'));
 
 foodSlides = new Slideshow(
-  ["/images/food/food0.jpg", "/images/food/food1.jpg", "/images/food/food2.jpg"],
+  ['/images/food/food0.jpg', '/images/food/food1.jpg', '/images/food/food2.jpg'],
   document.querySelector('.food-slideshow'));
