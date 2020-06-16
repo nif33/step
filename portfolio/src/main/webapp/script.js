@@ -20,8 +20,7 @@ google.charts.setOnLoadCallback(drawChart);
  */
 function countMarkers(markers) {
   const markerCounts = {};
-  for(marker of markers) {
-    const city = marker.city;
+  for(const {city} of markers) {
     if(markerCounts[city] == null) {
       markerCounts[city] = 0;
     }
