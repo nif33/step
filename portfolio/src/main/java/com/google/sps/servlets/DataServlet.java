@@ -21,7 +21,10 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Transaction;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,13 +53,16 @@ public class DataServlet extends HttpServlet {
     commentEntity.setProperty("name", name);
     commentEntity.setProperty("text", text);
     commentEntity.setProperty("timestamp", timestamp);
-
+    commentEntity.setProperty("numReports", 0);
     datastore.put(commentEntity);
   }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+    Query query = new Query("Comment");
+    query.addSort("numReports", SortDirection.ASCENDING);
+    query.addSort("timestamp", SortDirection.DESCENDING);
+    query = query.addFilter("numReports", Query.FilterOperator.LESS_THAN, 2);
     PreparedQuery results = datastore.prepare(query);
 
     // Get number of comments to display
@@ -75,7 +81,8 @@ public class DataServlet extends HttpServlet {
     ArrayList<Comment> comments = new ArrayList<>();
     for (Entity entity : results.asIterable(FetchOptions.Builder.withLimit(numCommentsToDisplay))) {
       // Get information for comment object
-      long id = entity.getKey().getId();
+      Key key = entity.getKey();
+      String id = KeyFactory.keyToString(key);
       String name = (String) entity.getProperty("name");
       String text = (String) entity.getProperty("text");
       long timestamp = (long) entity.getProperty("timestamp");

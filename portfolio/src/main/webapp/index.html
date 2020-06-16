@@ -11,6 +11,7 @@
       <div id="menu">
         <h2>
         <a href="index.html">Home</a>&nbsp&nbsp
+        <a href="#map-section">Location</a>&nbsp&nbsp
         <a href="#comment-section">Comments</a>&nbsp&nbsp
         <a href="https://ca.linkedin.com/in/jennifer-dai">LinkedIn</a>&nbsp&nbsp
         <a href="https://github.com/nif33">Github</a>
@@ -66,6 +67,9 @@
         <button class="next-slide-button">Next</button>
       </div>
 
+      <h2 id="map-section">Where I'm From</h2>
+      <div id="map"></div>
+
       <h2 id="comment-section">Comments</h2>
 
       <form>
@@ -88,12 +92,13 @@
         <textarea name="comment-input" id="comment-input"></textarea>
         <br/><br/>
 
-        <input type="button" value="Search" onclick="return addComment()"/>
+        <input type="button" value="Submit" onclick="addComment()"/>
       </form>
 
       <button onclick="deleteComments()">Delete All Comments</button>
 
     </div>
     <script src="script.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpmF0s9NVYoJuyUqabtouNiqxCQR2yEBU&callback=initMap" type="text/javascript"></script>
   </body>
 </html>
